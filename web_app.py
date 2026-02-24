@@ -1,3 +1,4 @@
+import base64
 import io
 import logging
 import os
@@ -121,6 +122,7 @@ CATEGORY_ITEMS = {
 }
 FFMPEG_PATH = shutil.which("ffmpeg")
 LIBREOFFICE_PATH = shutil.which("libreoffice") or shutil.which("soffice")
+YTDLP_COOKIEFILE: Path | None = None
 
 
 def unique_name(stem: str, suffix: str) -> str:
@@ -145,6 +147,43 @@ def zip_files(files: list[Path], zip_path: Path) -> None:
     with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         for item in files:
             zf.write(item, item.name)
+
+
+def get_ytdlp_cookiefile() -> str | None:
+    global YTDLP_COOKIEFILE
+    if YTDLP_COOKIEFILE and YTDLP_COOKIEFILE.exists():
+        return str(YTDLP_COOKIEFILE)
+
+    cookie_path = (os.environ.get("YTDLP_COOKIES_FILE") or "").strip()
+    if cookie_path and Path(cookie_path).exists():
+        YTDLP_COOKIEFILE = Path(cookie_path)
+        return str(YTDLP_COOKIEFILE)
+
+    cookie_b64 = (os.environ.get("YTDLP_COOKIES_B64") or "").strip()
+    if not cookie_b64:
+        return None
+
+    try:
+        raw = base64.b64decode(cookie_b64.encode("utf-8"), validate=True)
+        text = raw.decode("utf-8", errors="ignore")
+        if "# Netscape HTTP Cookie File" not in text:
+            return None
+        cookie_file = RUNTIME_DIR / "youtube_cookies.txt"
+        cookie_file.write_text(text, encoding="utf-8")
+        YTDLP_COOKIEFILE = cookie_file
+        return str(YTDLP_COOKIEFILE)
+    except Exception:
+        return None
+
+
+def ytdlp_user_message(prefix: str, exc: Exception) -> str:
+    detail = str(exc)
+    if "Sign in to confirm you\u2019re not a bot" in detail or "Sign in to confirm you're not a bot" in detail:
+        return (
+            f"{prefix}: YouTube pediu autenticacao. "
+            "No Render, define YTDLP_COOKIES_B64 com cookies exportados (formato Netscape)."
+        )
+    return f"{prefix}: {detail}"
 
 
 def queue_cleanup(paths: list[Path], dirs: list[Path] | None = None):
@@ -901,6 +940,7 @@ def youtube_to_mp3():
     out_template = str(work_dir / "%(title)s [%(id)s].%(ext)s")
     expected_mp3 = None
     video_title = ""
+    cookiefile = get_ytdlp_cookiefile()
 
     try:
         opts = {
@@ -913,7 +953,10 @@ def youtube_to_mp3():
             "quiet": True,
             "no_warnings": True,
             "noplaylist": True,
+            "http_headers": {"User-Agent": "Mozilla/5.0"},
         }
+        if cookiefile:
+            opts["cookiefile"] = cookiefile
         with yt_dlp.YoutubeDL(opts) as ydl:
             info = ydl.extract_info(url, download=True)
             video_title = info.get("title") or ""
@@ -930,7 +973,7 @@ def youtube_to_mp3():
         download_name = safe_download_name(video_title, ".mp3", expected_mp3.stem)
         return send_file(str(expected_mp3), as_attachment=True, download_name=download_name)
     except Exception as exc:
-        return template_error(f"Falha em YouTube para MP3: {exc}", 500)
+        return template_error(ytdlp_user_message("Falha em YouTube para MP3", exc), 500)
 
 
 @app.post("/tools/youtube-to-mp4")
@@ -946,6 +989,7 @@ def youtube_to_mp4():
     out_template = str(work_dir / "%(title)s [%(id)s].%(ext)s")
     expected_mp4 = None
     video_title = ""
+    cookiefile = get_ytdlp_cookiefile()
 
     try:
         opts = {
@@ -958,7 +1002,10 @@ def youtube_to_mp4():
             "quiet": True,
             "no_warnings": True,
             "noplaylist": True,
+            "http_headers": {"User-Agent": "Mozilla/5.0"},
         }
+        if cookiefile:
+            opts["cookiefile"] = cookiefile
         with yt_dlp.YoutubeDL(opts) as ydl:
             info = ydl.extract_info(url, download=True)
             video_title = info.get("title") or ""
@@ -975,7 +1022,7 @@ def youtube_to_mp4():
         download_name = safe_download_name(video_title, ".mp4", expected_mp4.stem)
         return send_file(str(expected_mp4), as_attachment=True, download_name=download_name)
     except Exception as exc:
-        return template_error(f"Falha em YouTube para MP4: {exc}", 500)
+        return template_error(ytdlp_user_message("Falha em YouTube para MP4", exc), 500)
 
 
 @app.post("/tools/youtube-playlist-to-mp3")
@@ -993,6 +1040,7 @@ def youtube_playlist_to_mp3():
     out_template = str(work_dir / "%(playlist_index)03d - %(title)s [%(id)s].%(ext)s")
     playlist_title = "youtube_playlist_mp3"
     zip_path = OUTPUT_DIR / unique_name("youtube_playlist_mp3", ".zip")
+    cookiefile = get_ytdlp_cookiefile()
 
     try:
         opts = {
@@ -1005,7 +1053,10 @@ def youtube_playlist_to_mp3():
             "quiet": True,
             "no_warnings": True,
             "noplaylist": False,
+            "http_headers": {"User-Agent": "Mozilla/5.0"},
         }
+        if cookiefile:
+            opts["cookiefile"] = cookiefile
         with yt_dlp.YoutubeDL(opts) as ydl:
             info = ydl.extract_info(url, download=True)
             playlist_title = info.get("title") or playlist_title
@@ -1022,7 +1073,7 @@ def youtube_playlist_to_mp3():
             download_name=safe_download_name(playlist_title, ".zip", "youtube_playlist_mp3"),
         )
     except Exception as exc:
-        return template_error(f"Falha em playlist YouTube para MP3: {exc}", 500)
+        return template_error(ytdlp_user_message("Falha em playlist YouTube para MP3", exc), 500)
 
 
 @app.post("/tools/youtube-playlist-to-mp4")
@@ -1038,6 +1089,7 @@ def youtube_playlist_to_mp4():
     out_template = str(work_dir / "%(playlist_index)03d - %(title)s [%(id)s].%(ext)s")
     playlist_title = "youtube_playlist_mp4"
     zip_path = OUTPUT_DIR / unique_name("youtube_playlist_mp4", ".zip")
+    cookiefile = get_ytdlp_cookiefile()
 
     try:
         opts = {
@@ -1050,7 +1102,10 @@ def youtube_playlist_to_mp4():
             "quiet": True,
             "no_warnings": True,
             "noplaylist": False,
+            "http_headers": {"User-Agent": "Mozilla/5.0"},
         }
+        if cookiefile:
+            opts["cookiefile"] = cookiefile
         with yt_dlp.YoutubeDL(opts) as ydl:
             info = ydl.extract_info(url, download=True)
             playlist_title = info.get("title") or playlist_title
@@ -1067,7 +1122,7 @@ def youtube_playlist_to_mp4():
             download_name=safe_download_name(playlist_title, ".zip", "youtube_playlist_mp4"),
         )
     except Exception as exc:
-        return template_error(f"Falha em playlist YouTube para MP4: {exc}", 500)
+        return template_error(ytdlp_user_message("Falha em playlist YouTube para MP4", exc), 500)
 
 
 @app.post("/tools/spotify-to-mp3")

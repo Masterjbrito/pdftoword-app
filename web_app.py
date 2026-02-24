@@ -126,6 +126,13 @@ CATEGORY_ITEMS = {
 FFMPEG_PATH = shutil.which("ffmpeg")
 LIBREOFFICE_PATH = shutil.which("libreoffice") or shutil.which("soffice")
 YTDLP_COOKIEFILE: Path | None = None
+YTDLP_USER_AGENT = (
+    os.environ.get("YTDLP_USER_AGENT")
+    or "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
+).strip()
+YTDLP_VISITOR_DATA = (os.environ.get("YTDLP_VISITOR_DATA") or "").strip()
+YTDLP_PO_TOKEN = (os.environ.get("YTDLP_PO_TOKEN") or "").strip()
+YTDLP_PLAYER_CLIENTS = [item.strip() for item in (os.environ.get("YTDLP_PLAYER_CLIENTS") or "android,web").split(",") if item.strip()]
 ADSENSE_CLIENT = (os.environ.get("ADSENSE_CLIENT") or "").strip()
 ADSENSE_SLOT_TOP = (os.environ.get("ADSENSE_SLOT_TOP") or "").strip()
 ADSENSE_SLOT_INLINE = (os.environ.get("ADSENSE_SLOT_INLINE") or "").strip()
@@ -221,9 +228,46 @@ def ytdlp_user_message(prefix: str, exc: Exception) -> str:
     if "Sign in to confirm you\u2019re not a bot" in detail or "Sign in to confirm you're not a bot" in detail:
         return (
             f"{prefix}: YouTube pediu autenticacao. "
-            "No Render, define YTDLP_COOKIES_B64 com cookies exportados (formato Netscape)."
+            "No Render, define YTDLP_COOKIES_B64 (cookies Netscape) e opcionalmente "
+            "YTDLP_PO_TOKEN + YTDLP_VISITOR_DATA para links mais bloqueados."
         )
     return f"{prefix}: {detail}"
+
+
+def build_ytdlp_opts(out_template: str, download_format: str, playlist: bool, extract_mp3: bool) -> dict:
+    opts = {
+        "format": download_format,
+        "outtmpl": out_template,
+        "proxy": "",
+        "nopart": True,
+        "quiet": True,
+        "no_warnings": True,
+        "noplaylist": not playlist,
+        "http_headers": {"User-Agent": YTDLP_USER_AGENT, "Accept-Language": "en-US,en;q=0.9"},
+        "retries": 3,
+        "fragment_retries": 3,
+        "extractor_retries": 3,
+        "socket_timeout": 30,
+    }
+    if FFMPEG_PATH:
+        opts["ffmpeg_location"] = FFMPEG_PATH
+    if extract_mp3:
+        opts["postprocessors"] = [{"key": "FFmpegExtractAudio", "preferredcodec": "mp3", "preferredquality": "192"}]
+
+    youtube_args: dict[str, list[str]] = {}
+    if YTDLP_PLAYER_CLIENTS:
+        youtube_args["player_client"] = YTDLP_PLAYER_CLIENTS
+    if YTDLP_VISITOR_DATA:
+        youtube_args["visitor_data"] = [YTDLP_VISITOR_DATA]
+    if YTDLP_PO_TOKEN:
+        youtube_args["po_token"] = [f"web+{YTDLP_PO_TOKEN}"]
+    if youtube_args:
+        opts["extractor_args"] = {"youtube": youtube_args}
+
+    cookiefile = get_ytdlp_cookiefile()
+    if cookiefile:
+        opts["cookiefile"] = cookiefile
+    return opts
 
 
 def queue_cleanup(paths: list[Path], dirs: list[Path] | None = None):
@@ -996,23 +1040,9 @@ def youtube_to_mp3():
     out_template = str(work_dir / "%(title)s [%(id)s].%(ext)s")
     expected_mp3 = None
     video_title = ""
-    cookiefile = get_ytdlp_cookiefile()
 
     try:
-        opts = {
-            "format": "bestaudio/best",
-            "outtmpl": out_template,
-            "proxy": "",
-            "ffmpeg_location": FFMPEG_PATH,
-            "postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": "mp3", "preferredquality": "192"}],
-            "nopart": True,
-            "quiet": True,
-            "no_warnings": True,
-            "noplaylist": True,
-            "http_headers": {"User-Agent": "Mozilla/5.0"},
-        }
-        if cookiefile:
-            opts["cookiefile"] = cookiefile
+        opts = build_ytdlp_opts(out_template, "bestaudio/best", playlist=False, extract_mp3=True)
         with yt_dlp.YoutubeDL(opts) as ydl:
             info = ydl.extract_info(url, download=True)
             video_title = info.get("title") or ""
@@ -1045,23 +1075,10 @@ def youtube_to_mp4():
     out_template = str(work_dir / "%(title)s [%(id)s].%(ext)s")
     expected_mp4 = None
     video_title = ""
-    cookiefile = get_ytdlp_cookiefile()
 
     try:
-        opts = {
-            "format": "bestvideo+bestaudio/best",
-            "outtmpl": out_template,
-            "merge_output_format": "mp4",
-            "proxy": "",
-            "ffmpeg_location": FFMPEG_PATH,
-            "nopart": True,
-            "quiet": True,
-            "no_warnings": True,
-            "noplaylist": True,
-            "http_headers": {"User-Agent": "Mozilla/5.0"},
-        }
-        if cookiefile:
-            opts["cookiefile"] = cookiefile
+        opts = build_ytdlp_opts(out_template, "bestvideo+bestaudio/best", playlist=False, extract_mp3=False)
+        opts["merge_output_format"] = "mp4"
         with yt_dlp.YoutubeDL(opts) as ydl:
             info = ydl.extract_info(url, download=True)
             video_title = info.get("title") or ""
@@ -1096,23 +1113,9 @@ def youtube_playlist_to_mp3():
     out_template = str(work_dir / "%(playlist_index)03d - %(title)s [%(id)s].%(ext)s")
     playlist_title = "youtube_playlist_mp3"
     zip_path = OUTPUT_DIR / unique_name("youtube_playlist_mp3", ".zip")
-    cookiefile = get_ytdlp_cookiefile()
 
     try:
-        opts = {
-            "format": "bestaudio/best",
-            "outtmpl": out_template,
-            "proxy": "",
-            "ffmpeg_location": FFMPEG_PATH,
-            "postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": "mp3", "preferredquality": "192"}],
-            "nopart": True,
-            "quiet": True,
-            "no_warnings": True,
-            "noplaylist": False,
-            "http_headers": {"User-Agent": "Mozilla/5.0"},
-        }
-        if cookiefile:
-            opts["cookiefile"] = cookiefile
+        opts = build_ytdlp_opts(out_template, "bestaudio/best", playlist=True, extract_mp3=True)
         with yt_dlp.YoutubeDL(opts) as ydl:
             info = ydl.extract_info(url, download=True)
             playlist_title = info.get("title") or playlist_title
@@ -1145,23 +1148,10 @@ def youtube_playlist_to_mp4():
     out_template = str(work_dir / "%(playlist_index)03d - %(title)s [%(id)s].%(ext)s")
     playlist_title = "youtube_playlist_mp4"
     zip_path = OUTPUT_DIR / unique_name("youtube_playlist_mp4", ".zip")
-    cookiefile = get_ytdlp_cookiefile()
 
     try:
-        opts = {
-            "format": "bestvideo+bestaudio/best",
-            "outtmpl": out_template,
-            "merge_output_format": "mp4",
-            "proxy": "",
-            "ffmpeg_location": FFMPEG_PATH,
-            "nopart": True,
-            "quiet": True,
-            "no_warnings": True,
-            "noplaylist": False,
-            "http_headers": {"User-Agent": "Mozilla/5.0"},
-        }
-        if cookiefile:
-            opts["cookiefile"] = cookiefile
+        opts = build_ytdlp_opts(out_template, "bestvideo+bestaudio/best", playlist=True, extract_mp3=False)
+        opts["merge_output_format"] = "mp4"
         with yt_dlp.YoutubeDL(opts) as ydl:
             info = ydl.extract_info(url, download=True)
             playlist_title = info.get("title") or playlist_title

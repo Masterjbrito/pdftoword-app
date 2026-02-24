@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AITools - Features</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  {% if adsense_client %}
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ adsense_client }}" crossorigin="anonymous"></script>
+  {% endif %}
 </head>
 <body>
   <header class="site-header">
@@ -95,5 +98,15 @@
       <section class="ad-box"><p>Ad 300x250</p></section>
     </aside>
   </main>
+  <script>
+    window.APP_CONFIG = {
+      maxUploadMb: {{ max_upload_mb|tojson }},
+      adsenseClient: {{ adsense_client|tojson }},
+      adsenseSlotTop: {{ adsense_slot_top|tojson }},
+      adsenseSlotInline: {{ adsense_slot_inline|tojson }},
+      appVersion: {{ app_version|tojson }}
+    };
+  </script>
+  <script defer src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

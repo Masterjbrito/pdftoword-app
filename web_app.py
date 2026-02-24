@@ -5,6 +5,7 @@ import os
 import shutil
 import subprocess
 import tempfile
+import time
 import uuid
 import zipfile
 from pathlib import Path
@@ -12,7 +13,7 @@ from pathlib import Path
 import fitz
 from deep_translator import GoogleTranslator
 from docx import Document
-from flask import Flask, after_this_request, redirect, render_template, request, send_file, url_for
+from flask import Flask, after_this_request, g, redirect, render_template, request, send_file, url_for
 from pdf2docx import Converter
 from PIL import Image
 from pypdf import PdfReader, PdfWriter
@@ -57,7 +58,9 @@ for folder in (UPLOAD_DIR, OUTPUT_DIR, TEMP_DIR, RUNTIME_DIR):
 TESSERACT_AVAILABLE = shutil.which("tesseract") is not None and pytesseract is not None
 
 app = Flask(__name__)
-app.config["MAX_CONTENT_LENGTH"] = 40 * 1024 * 1024  # 40MB
+MAX_UPLOAD_MB = int((os.environ.get("MAX_UPLOAD_MB") or "40").strip() or "40")
+app.config["MAX_CONTENT_LENGTH"] = MAX_UPLOAD_MB * 1024 * 1024
+app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 3600
 
 TOOLS = [
     ("pdf-to-word", "PDF to Word"),
@@ -123,6 +126,43 @@ CATEGORY_ITEMS = {
 FFMPEG_PATH = shutil.which("ffmpeg")
 LIBREOFFICE_PATH = shutil.which("libreoffice") or shutil.which("soffice")
 YTDLP_COOKIEFILE: Path | None = None
+ADSENSE_CLIENT = (os.environ.get("ADSENSE_CLIENT") or "").strip()
+ADSENSE_SLOT_TOP = (os.environ.get("ADSENSE_SLOT_TOP") or "").strip()
+ADSENSE_SLOT_INLINE = (os.environ.get("ADSENSE_SLOT_INLINE") or "").strip()
+APP_VERSION = (os.environ.get("APP_VERSION") or os.environ.get("RENDER_GIT_COMMIT") or "dev").strip()
+
+
+@app.before_request
+def before_request_timer():
+    g.request_start = time.perf_counter()
+
+
+@app.after_request
+def apply_global_response_headers(response):
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    response.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
+    response.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+
+    if request.path.startswith("/static/"):
+        response.headers.setdefault("Cache-Control", "public, max-age=86400")
+
+    start = getattr(g, "request_start", None)
+    if start is not None:
+        elapsed_ms = int((time.perf_counter() - start) * 1000)
+        response.headers["X-Response-Time-Ms"] = str(max(elapsed_ms, 0))
+    return response
+
+
+@app.context_processor
+def inject_app_config():
+    return {
+        "max_upload_mb": MAX_UPLOAD_MB,
+        "adsense_client": ADSENSE_CLIENT,
+        "adsense_slot_top": ADSENSE_SLOT_TOP,
+        "adsense_slot_inline": ADSENSE_SLOT_INLINE,
+        "app_version": APP_VERSION,
+    }
 
 
 def unique_name(stem: str, suffix: str) -> str:
@@ -268,9 +308,19 @@ def home():
     return render_template("home.html", tools=TOOLS, tool_desc=TOOL_DESC, category_items=CATEGORY_ITEMS, tool_map=TOOL_MAP)
 
 
+@app.get("/index")
+def index_legacy():
+    return render_template("index.html")
+
+
 @app.get("/converter")
 def converter_redirect():
     return redirect(url_for("tools_page"))
+
+
+@app.get("/converter-legacy")
+def converter_legacy():
+    return render_template("converter.html")
 
 
 @app.get("/ferramentas")
@@ -323,6 +373,12 @@ def pdf_to_word():
         return send_file(str(output_path), as_attachment=True, download_name=f"{secure_filename(stem)}{suffix}.docx")
     except Exception as exc:
         return template_error(f"Falha na conversÃ£o PDF para Word: {exc}", 500)
+
+
+@app.post("/convert")
+def pdf_to_word_legacy_alias():
+    # Legacy form action used by old landing pages.
+    return pdf_to_word()
 
 
 @app.post("/tools/word-to-pdf")
@@ -1223,7 +1279,41 @@ def spotify_playlist_to_mp3():
 
 @app.errorhandler(413)
 def file_too_large(_):
-    return template_error("Ficheiro demasiado grande. Limite atual: 40MB.", 413)
+    return template_error(f"Ficheiro demasiado grande. Limite atual: {MAX_UPLOAD_MB}MB.", 413)
+
+
+@app.get("/healthz")
+def healthz():
+    return {
+        "status": "ok",
+        "app_version": APP_VERSION,
+        "max_upload_mb": MAX_UPLOAD_MB,
+    }, 200
+
+
+@app.get("/readyz")
+def readyz():
+    return {
+        "status": "ready",
+        "services": {
+            "tesseract": TESSERACT_AVAILABLE,
+            "ffmpeg": bool(FFMPEG_PATH),
+            "libreoffice": bool(LIBREOFFICE_PATH),
+            "yt_dlp": yt_dlp is not None,
+            "speech_recognition": sr is not None,
+            "audio_segment": AudioSegment is not None,
+        },
+    }, 200
+
+
+@app.errorhandler(404)
+def page_not_found(_):
+    return template_error("Página não encontrada.", 404)
+
+
+@app.errorhandler(500)
+def internal_error(_):
+    return template_error("Erro interno temporário. Tenta novamente em instantes.", 500)
 
 
 if __name__ == "__main__":

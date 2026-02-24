@@ -29,3 +29,17 @@ sudo bash install_linux_apache.sh --domain _
 ```
 
 Use o teu domínio no lugar de `_` quando já estiver apontado para o servidor.
+
+## Operação e monetização
+
+- `GET /healthz`: estado base da aplicação.
+- `GET /readyz`: estado dos serviços opcionais (tesseract/ffmpeg/libreoffice/yt-dlp).
+- `POST /convert`: alias legacy para PDF -> Word (compatibilidade com páginas antigas).
+
+Variáveis de ambiente novas:
+
+- `MAX_UPLOAD_MB` (default: `40`)
+- `ADSENSE_CLIENT` (ex: `ca-pub-xxxxxxxxxxxxxxxx`)
+- `ADSENSE_SLOT_TOP` (opcional)
+- `ADSENSE_SLOT_INLINE` (opcional)
+- `APP_VERSION` (opcional)

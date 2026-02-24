@@ -413,6 +413,11 @@ button {
   color: #6a7785;
 }
 
+.ad-run-around {
+  min-height: 88px;
+  margin-bottom: 10px;
+}
+
 .js-category-toggle {
   display: none;
   border: 1px solid #bdd0e2;

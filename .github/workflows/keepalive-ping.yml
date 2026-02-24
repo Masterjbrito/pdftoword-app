@@ -12,10 +12,18 @@ jobs:
       - name: Ping health endpoint
         env:
           HEALTHCHECK_URL: ${{ secrets.HEALTHCHECK_URL }}
+          HEALTHCHECK_URL_DEFAULT: https://pdftoword-app.onrender.com/healthz
         run: |
-          if [ -z "$HEALTHCHECK_URL" ]; then
-            echo "HEALTHCHECK_URL secret not set; skipping ping."
+          TARGET_URL="$HEALTHCHECK_URL"
+          if [ -z "$TARGET_URL" ]; then
+            TARGET_URL="$HEALTHCHECK_URL_DEFAULT"
+          fi
+          if [ -z "$TARGET_URL" ]; then
+            echo "No healthcheck URL configured."
             exit 0
           fi
-          echo "Pinging $HEALTHCHECK_URL"
-          curl -fsS --max-time 30 "$HEALTHCHECK_URL"
+          if [ -z "$HEALTHCHECK_URL" ]; then
+            echo "HEALTHCHECK_URL secret not set; using default URL."
+          fi
+          echo "Pinging $TARGET_URL"
+          curl -fsS --max-time 30 "$TARGET_URL"

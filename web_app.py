@@ -1,4 +1,5 @@
 import base64
+import copy
 import io
 import logging
 import os
@@ -223,6 +224,36 @@ def get_ytdlp_cookiefile() -> str | None:
         return None
 
 
+def get_ytdlp_header_hints() -> tuple[str, str]:
+    visitor_data = YTDLP_VISITOR_DATA
+    po_token = YTDLP_PO_TOKEN
+    if visitor_data and po_token:
+        return visitor_data, po_token
+
+    candidates = [BASE_DIR / "yt_headers.txt", BASE_DIR.parent / "yt_headers.txt"]
+    for file_path in candidates:
+        if not file_path.exists():
+            continue
+        try:
+            text = file_path.read_text(encoding="utf-8", errors="ignore")
+            for raw_line in text.splitlines():
+                line = raw_line.strip()
+                if ":" not in line:
+                    continue
+                key, value = line.split(":", 1)
+                key = key.strip().lower()
+                value = value.strip()
+                if not visitor_data and key in {"x-goog-visitor-id", "x-visitor-data"} and value:
+                    visitor_data = value
+                if not po_token and key in {"x-youtube-identity-token", "x-po-token"} and value:
+                    po_token = value
+        except Exception:
+            continue
+        if visitor_data and po_token:
+            break
+    return visitor_data, po_token
+
+
 def ytdlp_user_message(prefix: str, exc: Exception) -> str:
     detail = str(exc)
     if "Sign in to confirm you\u2019re not a bot" in detail or "Sign in to confirm you're not a bot" in detail:
@@ -235,6 +266,7 @@ def ytdlp_user_message(prefix: str, exc: Exception) -> str:
 
 
 def build_ytdlp_opts(out_template: str, download_format: str, playlist: bool, extract_mp3: bool) -> dict:
+    visitor_data, po_token = get_ytdlp_header_hints()
     opts = {
         "format": download_format,
         "outtmpl": out_template,
@@ -257,10 +289,10 @@ def build_ytdlp_opts(out_template: str, download_format: str, playlist: bool, ex
     youtube_args: dict[str, list[str]] = {}
     if YTDLP_PLAYER_CLIENTS:
         youtube_args["player_client"] = YTDLP_PLAYER_CLIENTS
-    if YTDLP_VISITOR_DATA:
-        youtube_args["visitor_data"] = [YTDLP_VISITOR_DATA]
-    if YTDLP_PO_TOKEN:
-        youtube_args["po_token"] = [f"web+{YTDLP_PO_TOKEN}"]
+    if visitor_data:
+        youtube_args["visitor_data"] = [visitor_data]
+    if po_token:
+        youtube_args["po_token"] = [f"web+{po_token}"]
     if youtube_args:
         opts["extractor_args"] = {"youtube": youtube_args}
 
@@ -268,6 +300,43 @@ def build_ytdlp_opts(out_template: str, download_format: str, playlist: bool, ex
     if cookiefile:
         opts["cookiefile"] = cookiefile
     return opts
+
+
+def ytdlp_extract_with_fallback(url: str, opts: dict) -> tuple[dict, Path]:
+    attempts = [
+        tuple(YTDLP_PLAYER_CLIENTS),
+        ("android",),
+        ("tv", "ios", "android"),
+        ("mweb", "android", "web"),
+    ]
+    seen = set()
+    ordered_attempts: list[tuple[str, ...]] = []
+    for attempt in attempts:
+        clean = tuple(item for item in attempt if item)
+        if clean and clean not in seen:
+            ordered_attempts.append(clean)
+            seen.add(clean)
+
+    last_exc: Exception | None = None
+    for player_clients in ordered_attempts:
+        try:
+            local_opts = copy.deepcopy(opts)
+            extractor_args = local_opts.get("extractor_args", {})
+            youtube_args = extractor_args.get("youtube", {})
+            youtube_args["player_client"] = list(player_clients)
+            extractor_args["youtube"] = youtube_args
+            local_opts["extractor_args"] = extractor_args
+            with yt_dlp.YoutubeDL(local_opts) as ydl:
+                info = ydl.extract_info(url, download=True)
+                prepared = Path(ydl.prepare_filename(info))
+                return info, prepared
+        except Exception as exc:
+            last_exc = exc
+            continue
+
+    if last_exc is not None:
+        raise last_exc
+    raise RuntimeError("Falha desconhecida em yt-dlp.")
 
 
 def queue_cleanup(paths: list[Path], dirs: list[Path] | None = None):
@@ -1043,11 +1112,9 @@ def youtube_to_mp3():
 
     try:
         opts = build_ytdlp_opts(out_template, "bestaudio/best", playlist=False, extract_mp3=True)
-        with yt_dlp.YoutubeDL(opts) as ydl:
-            info = ydl.extract_info(url, download=True)
-            video_title = info.get("title") or ""
-            source_file = Path(ydl.prepare_filename(info))
-            expected_mp3 = source_file.with_suffix(".mp3")
+        info, prepared = ytdlp_extract_with_fallback(url, opts)
+        video_title = info.get("title") or ""
+        expected_mp3 = prepared.with_suffix(".mp3")
 
         if not expected_mp3 or not expected_mp3.exists():
             matches = sorted(work_dir.glob("*.mp3"), key=lambda p: p.stat().st_mtime, reverse=True)
@@ -1079,11 +1146,9 @@ def youtube_to_mp4():
     try:
         opts = build_ytdlp_opts(out_template, "bestvideo+bestaudio/best", playlist=False, extract_mp3=False)
         opts["merge_output_format"] = "mp4"
-        with yt_dlp.YoutubeDL(opts) as ydl:
-            info = ydl.extract_info(url, download=True)
-            video_title = info.get("title") or ""
-            source_file = Path(ydl.prepare_filename(info))
-            expected_mp4 = source_file.with_suffix(".mp4")
+        info, prepared = ytdlp_extract_with_fallback(url, opts)
+        video_title = info.get("title") or ""
+        expected_mp4 = prepared.with_suffix(".mp4")
 
         if not expected_mp4 or not expected_mp4.exists():
             matches = sorted(work_dir.glob("*.mp4"), key=lambda p: p.stat().st_mtime, reverse=True)
@@ -1116,9 +1181,8 @@ def youtube_playlist_to_mp3():
 
     try:
         opts = build_ytdlp_opts(out_template, "bestaudio/best", playlist=True, extract_mp3=True)
-        with yt_dlp.YoutubeDL(opts) as ydl:
-            info = ydl.extract_info(url, download=True)
-            playlist_title = info.get("title") or playlist_title
+        info, _ = ytdlp_extract_with_fallback(url, opts)
+        playlist_title = info.get("title") or playlist_title
 
         files = sorted(work_dir.glob("*.mp3"))
         if not files:
@@ -1152,9 +1216,8 @@ def youtube_playlist_to_mp4():
     try:
         opts = build_ytdlp_opts(out_template, "bestvideo+bestaudio/best", playlist=True, extract_mp3=False)
         opts["merge_output_format"] = "mp4"
-        with yt_dlp.YoutubeDL(opts) as ydl:
-            info = ydl.extract_info(url, download=True)
-            playlist_title = info.get("title") or playlist_title
+        info, _ = ytdlp_extract_with_fallback(url, opts)
+        playlist_title = info.get("title") or playlist_title
 
         files = sorted(work_dir.glob("*.mp4"))
         if not files:

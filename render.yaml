@@ -5,7 +5,14 @@ services:
       plan: free
       buildCommand: pip install -r requirements-server.txt
       startCommand: gunicorn web_app:app
+      healthCheckPath: /healthz
       autoDeploy: true
       envVars:
         - key: PYTHON_VERSION
           value: 3.11.9
+        - key: MAX_UPLOAD_MB
+          value: 40
+        - key: YTDLP_PLAYER_CLIENTS
+          value: android,web,tv
+        - key: YTDLP_USER_AGENT
+          value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36

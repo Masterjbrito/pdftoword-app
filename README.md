@@ -35,7 +35,7 @@ Use o teu domínio no lugar de `_` quando já estiver apontado para o servidor.
 - `GET /healthz`: estado base da aplicação.
 - `GET /readyz`: estado dos serviços opcionais (tesseract/ffmpeg/libreoffice/yt-dlp).
 - `POST /convert`: alias legacy para PDF -> Word (compatibilidade com páginas antigas).
-- Workflow `.github/workflows/keepalive-ping.yml`: ping automático 10/10 min (GitHub Actions).
+- Workflow `.github/workflows/keepalive-ping.yml`: ping automático 10/10 min (GitHub Actions), com URL default `https://pdftoword-app.onrender.com/healthz`.
 
 Variáveis de ambiente novas:
 
@@ -44,7 +44,7 @@ Variáveis de ambiente novas:
 - `ADSENSE_SLOT_TOP` (opcional)
 - `ADSENSE_SLOT_INLINE` (opcional)
 - `APP_VERSION` (opcional)
-- `HEALTHCHECK_URL` (GitHub Secret para o workflow de ping, ex: `https://<app>.onrender.com/healthz`)
+- `HEALTHCHECK_URL` (opcional; se vazio usa a URL default no workflow)
 - `YTDLP_PLAYER_CLIENTS` (default: `android,web`)
 - `YTDLP_VISITOR_DATA` (opcional)
 - `YTDLP_PO_TOKEN` (opcional)

@@ -127,6 +127,35 @@
     });
   }
 
+  function setupAroundRunningAds() {
+    const forms = document.querySelectorAll(".tool-card form, .card form");
+    forms.forEach((form, index) => {
+      if (!form.parentElement || form.parentElement.querySelector(".ad-run-around")) {
+        return;
+      }
+      const beforeAd = document.createElement("section");
+      beforeAd.className = "ad-box ad-run-around";
+      beforeAd.innerHTML = "<p>Ad Around Tool Run</p>";
+
+      const afterAd = document.createElement("section");
+      afterAd.className = "ad-box ad-run-around";
+      afterAd.innerHTML = "<p>Ad Around Tool Result</p>";
+
+      form.parentElement.insertBefore(beforeAd, form);
+      if (form.nextSibling) {
+        form.parentElement.insertBefore(afterAd, form.nextSibling);
+      } else {
+        form.parentElement.appendChild(afterAd);
+      }
+
+      if (cfg.adsenseClient) {
+        setupAds();
+      } else if (index > 2) {
+        afterAd.style.display = "none";
+      }
+    });
+  }
+
   function setupMobileStickyAd() {
     if (!cfg.adsenseClient) {
       return;
@@ -144,6 +173,7 @@
   setupFormEnhancements();
   setupSplitFormBehavior();
   setupMobileCategoryMenu();
+  setupAroundRunningAds();
   setupAds();
   setupMobileStickyAd();
 })();

@@ -1,0 +1,17 @@
+﻿Package Version: linux_light_20260220_200500
+Created At: 2026-02-21 01:03:37 +00:00
+Project Root: C:\Users\e617\OneDrive - ALTEN Group\Documentos\Projetos\pdftoword
+Mode: 
+AppCore
+
+Server setup (Windows/PowerShell):
+python -m venv .venv
+.\\.venv\\Scripts\\Activate.ps1
+pip install -r requirements.txt
+python web_app.py
+
+Server setup (Linux/macOS):
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python web_app.py

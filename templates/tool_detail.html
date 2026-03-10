@@ -1,0 +1,493 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tool_title }} — Free Online Tool | AITools{% endblock %}
+{% block meta_desc %}{{ tool_desc }} Free, fast, and secure — no registration needed.{% endblock %}
+
+{% block content %}
+<main class="page with-rails">
+
+  <!-- Left Rail Ads -->
+  <aside class="rail rail-left">
+    <div class="ad-slot ad-sidebar-lg">
+      <ins class="adsbygoogle"
+           style="display:block;width:240px;height:600px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="1111111111"
+           data-ad-format="fixed">
+      </ins>
+    </div>
+    <div class="ad-slot ad-sidebar">
+      <ins class="adsbygoogle"
+           style="display:block;width:240px;height:250px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="2222222222"
+           data-ad-format="fixed">
+      </ins>
+    </div>
+  </aside>
+
+  <!-- Center Column -->
+  <section class="center-column">
+
+    <!-- Top Leaderboard Ad -->
+    <div class="ad-slot ad-leaderboard">
+      <ins class="adsbygoogle"
+           style="display:block;width:100%;height:90px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="3333333333"
+           data-ad-format="horizontal">
+      </ins>
+    </div>
+
+    <!-- Inline Ad before tool -->
+    <div class="ad-slot ad-rectangle" style="margin-bottom:18px;">
+      <ins class="adsbygoogle"
+           style="display:block;width:100%;height:250px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="4444444444"
+           data-ad-format="rectangle">
+      </ins>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-error">⚠️ {{ error }}</div>
+    {% endif %}
+
+    <!-- Tool Card -->
+    <section class="detail-card">
+      <h1>{{ tool_title }}</h1>
+      <p class="subtitle">{{ tool_desc }} <a href="/ferramentas">← All tools</a></p>
+
+      <!-- ── PDF to Word ──────────────────────────────────── -->
+      {% if tool_slug == 'pdf-to-word' %}
+      <form action="/tools/pdf-to-word" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_tool" value="pdf-to-word">
+        <div class="upload-zone">
+          <input type="file" name="pdf_file" accept=".pdf" required id="file-pdf-to-word">
+          <div class="upload-icon">📄</div>
+          <span class="upload-label">Drop your PDF here or click to browse</span>
+          <span class="upload-hint">Accepts .pdf · Max 40 MB</span>
+        </div>
+        <div class="form-row" style="margin-top:14px;">
+          <input type="checkbox" name="translate" id="chk-translate">
+          <label class="form-label" for="chk-translate">Translate after conversion</label>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Source language</label>
+            <select name="source_lang">
+              <option value="auto">Auto-detect</option>
+              <option value="en">English</option>
+              <option value="pt">Portuguese</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Target language</label>
+            <select name="target_lang">
+              <option value="pt">Portuguese</option>
+              <option value="en">English</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="submit-btn">⚡ Convert to Word (.docx)</button>
+      </form>
+
+      <!-- ── Word to PDF ──────────────────────────────────── -->
+      {% elif tool_slug == 'word-to-pdf' %}
+      <form action="/tools/word-to-pdf" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_tool" value="word-to-pdf">
+        <div class="upload-zone">
+          <input type="file" name="word_file" accept=".docx" required>
+          <div class="upload-icon">📝</div>
+          <span class="upload-label">Drop your DOCX here or click to browse</span>
+          <span class="upload-hint">Accepts .docx · Max 40 MB</span>
+        </div>
+        <button type="submit" class="submit-btn" style="margin-top:16px;">⚡ Convert to PDF</button>
+      </form>
+
+      <!-- ── PDF to Images ───────────────────────────────── -->
+      {% elif tool_slug == 'pdf-to-images' %}
+      <form action="/tools/pdf-to-images" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_tool" value="pdf-to-images">
+        <div class="upload-zone">
+          <input type="file" name="pdf_file_images" accept=".pdf" required>
+          <div class="upload-icon">🖼️</div>
+          <span class="upload-label">Drop your PDF here or click to browse</span>
+          <span class="upload-hint">Accepts .pdf · Max 40 MB</span>
+        </div>
+        <div class="form-group" style="margin-top:14px;">
+          <label class="form-label">Resolution scale (1 = 72dpi, 2 = 144dpi, 4 = 288dpi)</label>
+          <input type="number" name="scale" min="1" max="4" step="0.5" value="2">
+        </div>
+        <button type="submit" class="submit-btn">⚡ Export Images (ZIP)</button>
+      </form>
+
+      <!-- ── Images to PDF ───────────────────────────────── -->
+      {% elif tool_slug == 'images-to-pdf' %}
+      <form action="/tools/images-to-pdf" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_tool" value="images-to-pdf">
+        <div class="upload-zone">
+          <input type="file" name="image_files" accept=".png,.jpg,.jpeg,.webp,.bmp,.tiff" multiple required>
+          <div class="upload-icon">📚</div>
+          <span class="upload-label">Drop your images here or click to browse</span>
+          <span class="upload-hint">PNG, JPG, WEBP, BMP, TIFF · Multiple files allowed</span>
+        </div>
+        <button type="submit" class="submit-btn" style="margin-top:16px;">⚡ Create PDF</button>
+      </form>
+
+      <!-- ── Merge PDF ───────────────────────────────────── -->
+      {% elif tool_slug == 'merge-pdf' %}
+      <form action="/tools/merge-pdf" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_tool" value="merge-pdf">
+        <div class="upload-zone">
+          <input type="file" name="merge_files" accept=".pdf" multiple required>
+          <div class="upload-icon">🔗</div>
+          <span class="upload-label">Drop 2+ PDFs here or click to browse</span>
+          <span class="upload-hint">Select multiple PDF files — they will be merged in order</span>
+        </div>
+        <button type="submit" class="submit-btn" style="margin-top:16px;">⚡ Merge PDFs</button>
+      </form>
+
+      <!-- ── Split PDF ───────────────────────────────────── -->
+      {% elif tool_slug == 'split-pdf' %}
+      <form action="/tools/split-pdf" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_tool" value="split-pdf">
+        <div class="upload-zone">
+          <input type="file" name="split_file" accept=".pdf" required>
+          <div class="upload-icon">✂️</div>
+          <span class="upload-label">Drop your PDF here or click to browse</span>
+          <span class="upload-hint">Accepts .pdf · Max 40 MB</span>
+        </div>
+        <div class="form-group" style="margin-top:14px;">
+          <label class="form-label">Split mode</label>
+          <select name="split_mode">
+            <option value="all">All pages (each page as a separate PDF → ZIP)</option>
+            <option value="range">Page range (extract specific pages)</option>
+          </select>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Start page (for range)</label>
+            <input type="number" name="start_page" min="1" placeholder="e.g. 1">
+          </div>
+          <div class="form-group">
+            <label class="form-label">End page (for range)</label>
+            <input type="number" name="end_page" min="1" placeholder="e.g. 5">
+          </div>
+        </div>
+        <button type="submit" class="submit-btn">⚡ Split PDF</button>
+      </form>
+
+      <!-- ── Compress PDF ────────────────────────────────── -->
+      {% elif tool_slug == 'compress-pdf' %}
+      <form action="/tools/compress-pdf" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_tool" value="compress-pdf">
+        <div class="upload-zone">
+          <input type="file" name="compress_file" accept=".pdf" required>
+          <div class="upload-icon">🗜️</div>
+          <span class="upload-label">Drop your PDF here or click to browse</span>
+          <span class="upload-hint">Accepts .pdf · Max 40 MB</span>
+        </div>
+        <button type="submit" class="submit-btn" style="margin-top:16px;">⚡ Compress PDF</button>
+      </form>
+
+      <!-- ── Protect PDF ────────────────────────────────── -->
+      {% elif tool_slug == 'protect-pdf' %}
+      <form action="/tools/protect-pdf" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_tool" value="protect-pdf">
+        <div class="upload-zone">
+          <input type="file" name="protect_file" accept=".pdf" required>
+          <div class="upload-icon">🔒</div>
+          <span class="upload-label">Drop your PDF here or click to browse</span>
+          <span class="upload-hint">Accepts .pdf · Max 40 MB</span>
+        </div>
+        <div class="form-group" style="margin-top:14px;">
+          <label class="form-label">Document password (required)</label>
+          <input type="password" name="password" placeholder="Set a password" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Owner password (optional — defaults to document password)</label>
+          <input type="password" name="owner_password" placeholder="Owner password">
+        </div>
+        <button type="submit" class="submit-btn">⚡ Protect PDF</button>
+      </form>
+
+      <!-- ── Unlock PDF ─────────────────────────────────── -->
+      {% elif tool_slug == 'unlock-pdf' %}
+      <form action="/tools/unlock-pdf" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_tool" value="unlock-pdf">
+        <div class="upload-zone">
+          <input type="file" name="unlock_file" accept=".pdf" required>
+          <div class="upload-icon">🔓</div>
+          <span class="upload-label">Drop your protected PDF here</span>
+          <span class="upload-hint">Accepts .pdf · Max 40 MB</span>
+        </div>
+        <div class="form-group" style="margin-top:14px;">
+          <label class="form-label">Current password</label>
+          <input type="password" name="unlock_password" placeholder="Enter the PDF password" required>
+        </div>
+        <button type="submit" class="submit-btn">⚡ Unlock PDF</button>
+      </form>
+
+      <!-- ── Sign PDF ───────────────────────────────────── -->
+      {% elif tool_slug == 'sign-pdf' %}
+      <form action="/tools/sign-pdf" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_tool" value="sign-pdf">
+        <div class="upload-zone">
+          <input type="file" name="sign_file" accept=".pdf" required>
+          <div class="upload-icon">✍️</div>
+          <span class="upload-label">Drop your PDF here or click to browse</span>
+          <span class="upload-hint">Accepts .pdf · Max 40 MB</span>
+        </div>
+        <div class="form-group" style="margin-top:14px;">
+          <label class="form-label">Signature text</label>
+          <input type="text" name="signature_text" placeholder="Signature text" value="Digitally signed by AITools">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Signature image (optional, PNG/JPG)</label>
+          <input type="file" name="signature_image" accept=".png,.jpg,.jpeg" style="position:relative;opacity:1;height:auto;padding:11px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--text);">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Place signature on</label>
+          <select name="signature_page">
+            <option value="last">Last page</option>
+            <option value="first">First page</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-btn">⚡ Sign PDF</button>
+      </form>
+
+      <!-- ── Remove Watermark ───────────────────────────── -->
+      {% elif tool_slug == 'remove-watermark' %}
+      <form action="/tools/remove-watermark" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_tool" value="remove-watermark">
+        <div class="upload-zone">
+          <input type="file" name="watermark_file" accept=".pdf" required>
+          <div class="upload-icon">🚫</div>
+          <span class="upload-label">Drop your PDF here or click to browse</span>
+          <span class="upload-hint">Accepts .pdf · Max 40 MB</span>
+        </div>
+        <div class="form-group" style="margin-top:14px;">
+          <label class="form-label">Exact watermark text to remove</label>
+          <input type="text" name="watermark_text" placeholder="e.g. CONFIDENTIAL" required>
+        </div>
+        <button type="submit" class="submit-btn">⚡ Remove Watermark</button>
+      </form>
+
+      <!-- ── Remove Password ────────────────────────────── -->
+      {% elif tool_slug == 'remove-password' %}
+      <form action="/tools/remove-password" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_tool" value="remove-password">
+        <div class="upload-zone">
+          <input type="file" name="remove_pass_file" accept=".pdf" required>
+          <div class="upload-icon">🗝️</div>
+          <span class="upload-label">Drop your PDF here or click to browse</span>
+          <span class="upload-hint">Accepts .pdf · Max 40 MB</span>
+        </div>
+        <div class="form-group" style="margin-top:14px;">
+          <label class="form-label">Current password (if the PDF is protected)</label>
+          <input type="password" name="remove_pass_value" placeholder="Current password (leave blank if none)">
+        </div>
+        <button type="submit" class="submit-btn">⚡ Remove Password</button>
+      </form>
+
+      <!-- ── OCR ────────────────────────────────────────── -->
+      {% elif tool_slug == 'ocr' %}
+      <form action="/tools/ocr" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_tool" value="ocr">
+        <div class="upload-zone">
+          <input type="file" name="ocr_file" accept=".pdf,.png,.jpg,.jpeg,.webp,.bmp,.tiff" required>
+          <div class="upload-icon">🔍</div>
+          <span class="upload-label">Drop PDF or image here</span>
+          <span class="upload-hint">PDF, PNG, JPG, WEBP, BMP, TIFF · Max 40 MB</span>
+        </div>
+        <div class="form-group" style="margin-top:14px;">
+          <label class="form-label">OCR language code</label>
+          <input type="text" name="ocr_lang" value="eng" placeholder="eng, por, spa, fra, deu...">
+        </div>
+        <button type="submit" class="submit-btn">⚡ Extract Text</button>
+      </form>
+      {% if not tesseract_available %}
+      <p class="hint">⚠️ Image OCR requires Tesseract installed on the server. PDF text extraction is available without it.</p>
+      {% endif %}
+
+      <!-- ── Translate ──────────────────────────────────── -->
+      {% elif tool_slug == 'translate' %}
+      <form action="/tools/translate" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_tool" value="translate">
+        <div class="upload-zone">
+          <input type="file" name="translate_file" accept=".docx,.pdf,.txt" required>
+          <div class="upload-icon">🌐</div>
+          <span class="upload-label">Drop your document here</span>
+          <span class="upload-hint">DOCX, PDF, TXT · Max 40 MB</span>
+        </div>
+        <div class="form-grid" style="margin-top:14px;">
+          <div class="form-group">
+            <label class="form-label">From language</label>
+            <select name="tr_source">
+              <option value="auto">Auto-detect</option>
+              <option value="en">English</option>
+              <option value="pt">Portuguese</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">To language</label>
+            <select name="tr_target">
+              <option value="en">English</option>
+              <option value="pt">Portuguese</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="submit-btn">⚡ Translate Document</button>
+      </form>
+
+      <!-- ── Transcribe Audio ───────────────────────────── -->
+      {% elif tool_slug == 'transcribe-audio' %}
+      <form action="/tools/transcribe-audio" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_tool" value="transcribe-audio">
+        <div class="upload-zone">
+          <input type="file" name="audio_file" accept=".mp3,.wav,.m4a,.ogg,.flac,.mp4,.webm,.mov" required>
+          <div class="upload-icon">🎙️</div>
+          <span class="upload-label">Drop your audio or video here</span>
+          <span class="upload-hint">MP3, WAV, M4A, OGG, FLAC, MP4, WEBM, MOV</span>
+        </div>
+        <div class="form-group" style="margin-top:14px;">
+          <label class="form-label">Language (BCP-47 code)</label>
+          <input type="text" name="audio_lang" value="en-US" placeholder="en-US, pt-PT, es-ES...">
+        </div>
+        <button type="submit" class="submit-btn">⚡ Transcribe to TXT</button>
+      </form>
+
+      <!-- ── YouTube to MP3 ─────────────────────────────── -->
+      {% elif tool_slug == 'youtube-to-mp3' %}
+      <form action="/tools/youtube-to-mp3" method="post">
+        <input type="hidden" name="_tool" value="youtube-to-mp3">
+        <div class="form-group">
+          <label class="form-label">YouTube video URL</label>
+          <input type="url" name="youtube_url" placeholder="https://www.youtube.com/watch?v=..." required>
+        </div>
+        <button type="submit" class="submit-btn" style="margin-top:14px;">⚡ Convert to MP3</button>
+      </form>
+
+      <!-- ── YouTube to MP4 ─────────────────────────────── -->
+      {% elif tool_slug == 'youtube-to-mp4' %}
+      <form action="/tools/youtube-to-mp4" method="post">
+        <input type="hidden" name="_tool" value="youtube-to-mp4">
+        <div class="form-group">
+          <label class="form-label">YouTube video URL</label>
+          <input type="url" name="youtube_url_mp4" placeholder="https://www.youtube.com/watch?v=..." required>
+        </div>
+        <button type="submit" class="submit-btn" style="margin-top:14px;">⚡ Download MP4</button>
+      </form>
+
+      <!-- ── YouTube Playlist to MP3 ────────────────────── -->
+      {% elif tool_slug == 'youtube-playlist-to-mp3' %}
+      <form action="/tools/youtube-playlist-to-mp3" method="post">
+        <input type="hidden" name="_tool" value="youtube-playlist-to-mp3">
+        <div class="form-group">
+          <label class="form-label">YouTube playlist URL</label>
+          <input type="url" name="youtube_playlist_url_mp3" placeholder="https://www.youtube.com/playlist?list=..." required>
+        </div>
+        <button type="submit" class="submit-btn" style="margin-top:14px;">⚡ Download Playlist as MP3 (ZIP)</button>
+      </form>
+
+      <!-- ── YouTube Playlist to MP4 ────────────────────── -->
+      {% elif tool_slug == 'youtube-playlist-to-mp4' %}
+      <form action="/tools/youtube-playlist-to-mp4" method="post">
+        <input type="hidden" name="_tool" value="youtube-playlist-to-mp4">
+        <div class="form-group">
+          <label class="form-label">YouTube playlist URL</label>
+          <input type="url" name="youtube_playlist_url_mp4" placeholder="https://www.youtube.com/playlist?list=..." required>
+        </div>
+        <button type="submit" class="submit-btn" style="margin-top:14px;">⚡ Download Playlist as MP4 (ZIP)</button>
+      </form>
+
+      <!-- ── Spotify to MP3 ─────────────────────────────── -->
+      {% elif tool_slug == 'spotify-to-mp3' %}
+      <form action="/tools/spotify-to-mp3" method="post">
+        <input type="hidden" name="_tool" value="spotify-to-mp3">
+        <div class="form-group">
+          <label class="form-label">Spotify track URL</label>
+          <input type="url" name="spotify_url" placeholder="https://open.spotify.com/track/..." required>
+        </div>
+        <button type="submit" class="submit-btn" style="margin-top:14px;">⚡ Convert to MP3</button>
+      </form>
+
+      <!-- ── Spotify Playlist to MP3 ───────────────────── -->
+      {% elif tool_slug == 'spotify-playlist-to-mp3' %}
+      <form action="/tools/spotify-playlist-to-mp3" method="post">
+        <input type="hidden" name="_tool" value="spotify-playlist-to-mp3">
+        <div class="form-group">
+          <label class="form-label">Spotify playlist URL</label>
+          <input type="url" name="spotify_playlist_url" placeholder="https://open.spotify.com/playlist/..." required>
+        </div>
+        <button type="submit" class="submit-btn" style="margin-top:14px;">⚡ Download Playlist as MP3 (ZIP)</button>
+      </form>
+
+      {% endif %}
+    </section>
+
+    <!-- Post-tool Rectangle Ad -->
+    <div class="ad-slot ad-rectangle">
+      <ins class="adsbygoogle"
+           style="display:block;width:100%;height:250px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="5555555555"
+           data-ad-format="rectangle">
+      </ins>
+    </div>
+
+    <!-- Related Tools -->
+    <h2 class="section-heading" style="margin-top:4px;"><span>🔧</span> Other Popular Tools</h2>
+    <div class="quick-grid">
+      {% set popular = [
+        ('pdf-to-word', '📄', 'PDF to Word'),
+        ('compress-pdf', '🗜️', 'Compress PDF'),
+        ('merge-pdf', '🔗', 'Merge PDFs'),
+        ('youtube-to-mp3', '🎵', 'YouTube → MP3'),
+        ('translate', '🌐', 'Translate'),
+        ('split-pdf', '✂️', 'Split PDF'),
+      ] %}
+      {% for slug, icon, label in popular if slug != tool_slug %}
+      <a class="quick-btn" href="/ferramentas/{{ slug }}">
+        <span>{{ icon }}</span> {{ label }}
+      </a>
+      {% endfor %}
+    </div>
+
+  </section>
+
+  <!-- Right Rail Ads -->
+  <aside class="rail rail-right">
+    <div class="ad-slot ad-sidebar-lg">
+      <ins class="adsbygoogle"
+           style="display:block;width:240px;height:600px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="6666666666"
+           data-ad-format="fixed">
+      </ins>
+    </div>
+    <div class="ad-slot ad-sidebar">
+      <ins class="adsbygoogle"
+           style="display:block;width:240px;height:250px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="7777777777"
+           data-ad-format="fixed">
+      </ins>
+    </div>
+  </aside>
+
+</main>
+{% endblock %}

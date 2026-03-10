@@ -1,0 +1,21 @@
+﻿Package Version: 20260224_server_fix
+Created At: 2026-02-24 11:38:18 +00:00
+Project Root: C:\Users\e617\OneDrive - ALTEN Group\Documentos\Projetos\pdftoword
+Mode: 
+AppCore
+
+Server setup (Windows/PowerShell):
+python -m venv .venv
+.\\.venv\\Scripts\\Activate.ps1
+pip install -r requirements-server.txt
+python web_app.py
+
+Server setup (Linux/macOS):
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-server.txt
+python web_app.py
+
+Optional full features (YouTube/Spotify/Audio OCR):
+pip install -r requirements.txt
+python web_app.py

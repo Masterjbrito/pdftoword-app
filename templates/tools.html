@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}All Free Tools | AITools{% endblock %}
+{% block meta_desc %}Browse our complete collection of 22 free document, PDF, and media processing tools.{% endblock %}
+
+{% block content %}
+<main class="page with-rails">
+
+  <!-- Left Rail Ads -->
+  <aside class="rail rail-left">
+    <div class="ad-slot ad-sidebar-lg">
+      <ins class="adsbygoogle"
+           style="display:block;width:240px;height:600px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="1111111111"
+           data-ad-format="fixed"></ins>
+    </div>
+  </aside>
+
+  <!-- Center Column -->
+  <section class="center-column">
+    
+    <!-- Top Leaderboard Ad -->
+    <div class="ad-slot ad-leaderboard">
+      <ins class="adsbygoogle"
+           style="display:block;width:100%;height:90px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="3333333333"
+           data-ad-format="horizontal"></ins>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-error">⚠️ {{ error }}</div>
+    {% endif %}
+
+    <h2 class="section-heading"><span>⚙️</span> All High-Performance Tools</h2>
+
+    <div class="tools-grid" id="lista">
+      
+      <!-- PDF to Word -->
+      <a href="/ferramentas/pdf-to-word" class="tool-card">
+        <div class="tool-card-icon">📄</div>
+        <h3>PDF to Word</h3>
+        <p>Convert PDF documents to editable Word DOCX format instantly.</p>
+      </a>
+
+      <!-- Word to PDF -->
+      <a href="/ferramentas/word-to-pdf" class="tool-card">
+        <div class="tool-card-icon">📝</div>
+        <h3>Word to PDF</h3>
+        <p>Convert Word DOCX documents into secure PDF files.</p>
+      </a>
+
+      <!-- PDF to Images -->
+      <a href="/ferramentas/pdf-to-images" class="tool-card">
+        <div class="tool-card-icon">🖼️</div>
+        <h3>PDF to Images</h3>
+        <p>Extract all pages of a PDF into high-res images (ZIP).</p>
+      </a>
+
+      <!-- Images to PDF -->
+      <a href="/ferramentas/images-to-pdf" class="tool-card">
+        <div class="tool-card-icon">📚</div>
+        <h3>Images to PDF</h3>
+        <p>Compile multiple images into a single PDF document.</p>
+      </a>
+
+      <!-- Merge PDFs -->
+      <a href="/ferramentas/merge-pdf" class="tool-card">
+        <div class="tool-card-icon">🔗</div>
+        <h3>Merge PDFs</h3>
+        <p>Combine multiple PDF files into one continuous document.</p>
+      </a>
+
+      <!-- Split PDF -->
+      <a href="/ferramentas/split-pdf" class="tool-card">
+        <div class="tool-card-icon">✂️</div>
+        <h3>Split PDF</h3>
+        <p>Extract specific pages or separate all pages of a PDF.</p>
+      </a>
+
+      <!-- Compress PDF -->
+      <a href="/ferramentas/compress-pdf" class="tool-card">
+        <div class="tool-card-icon">🗜️</div>
+        <h3>Compress PDF</h3>
+        <p>Reduce the file size of your PDF without losing quality.</p>
+      </a>
+
+      <!-- Protect PDF -->
+      <a href="/ferramentas/protect-pdf" class="tool-card">
+        <div class="tool-card-icon">🔒</div>
+        <h3>Protect PDF</h3>
+        <p>Encrypt your PDF document with a secure password.</p>
+      </a>
+
+      <!-- Unlock PDF -->
+      <a href="/ferramentas/unlock-pdf" class="tool-card">
+        <div class="tool-card-icon">🔓</div>
+        <h3>Unlock PDF</h3>
+        <p>Remove security from a protected PDF (requires password).</p>
+      </a>
+
+      <!-- Sign PDF -->
+      <a href="/ferramentas/sign-pdf" class="tool-card">
+        <div class="tool-card-icon">✍️</div>
+        <h3>Sign PDF</h3>
+        <p>Add a digital signature or image to your PDF file.</p>
+      </a>
+
+      <!-- Remove Watermark -->
+      <a href="/ferramentas/remove-watermark" class="tool-card">
+        <div class="tool-card-icon">🚫</div>
+        <h3>Remove Watermark</h3>
+        <p>Remove specific text watermarks from all PDF pages.</p>
+      </a>
+
+      <!-- Remove Password -->
+      <a href="/ferramentas/remove-password" class="tool-card">
+        <div class="tool-card-icon">🗝️</div>
+        <h3>Remove Password</h3>
+        <p>Permanently remove password protection from a PDF.</p>
+      </a>
+
+      <!-- OCR -->
+      <a href="/ferramentas/ocr" class="tool-card">
+        <div class="tool-card-icon">🔍</div>
+        <h3>OCR Extraction</h3>
+        <p>Extract raw text from scanned PDFs or images.</p>
+      </a>
+
+      <!-- Translate -->
+      <a href="/ferramentas/translate" class="tool-card">
+        <div class="tool-card-icon">🌐</div>
+        <h3>Translate Document</h3>
+        <p>Instantly translate DOCX or PDF files to multiple languages.</p>
+      </a>
+
+      <!-- Transcribe -->
+      <a href="/ferramentas/transcribe-audio" class="tool-card">
+        <div class="tool-card-icon">🎙️</div>
+        <h3>Transcribe Audio</h3>
+        <p>Convert Speech from Audio and Video files into Text.</p>
+      </a>
+
+      <!-- Youtube to MP3 -->
+      <a href="/ferramentas/youtube-to-mp3" class="tool-card">
+        <div class="tool-card-icon">🎵</div>
+        <h3>YouTube to MP3</h3>
+        <p>Convert and download YouTube videos as high-quality MP3s.</p>
+      </a>
+
+      <!-- Youtube to MP4 -->
+      <a href="/ferramentas/youtube-to-mp4" class="tool-card">
+        <div class="tool-card-icon">🎬</div>
+        <h3>YouTube to MP4</h3>
+        <p>Download YouTube videos in MP4 video format.</p>
+      </a>
+
+       <!-- Spotify to MP3 -->
+       <a href="/ferramentas/spotify-to-mp3" class="tool-card">
+        <div class="tool-card-icon">🎧</div>
+        <h3>Spotify to MP3</h3>
+        <p>Download Spotify tracks directly as MP3 files.</p>
+      </a>
+
+    </div>
+
+    <!-- Post-tool Rectangle Ad -->
+    <div class="ad-slot ad-rectangle" style="margin-top: 24px;">
+      <ins class="adsbygoogle"
+           style="display:block;width:100%;height:250px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="5555555555"
+           data-ad-format="rectangle"></ins>
+    </div>
+
+  </section>
+
+  <!-- Right Rail Ads -->
+  <aside class="rail rail-right">
+    <div class="ad-slot ad-sidebar-lg">
+      <ins class="adsbygoogle"
+           style="display:block;width:240px;height:600px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="6666666666"
+           data-ad-format="fixed"></ins>
+    </div>
+  </aside>
+
+</main>
+{% endblock %}

@@ -1,0 +1,128 @@
+﻿[
+    {
+        "Feature":  "01 PDF to Word",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\pdf_to_word.docx"
+    },
+    {
+        "Feature":  "02 Word to PDF",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\word_to_pdf.pdf"
+    },
+    {
+        "Feature":  "03 PDF to Images",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\pdf_images.zip"
+    },
+    {
+        "Feature":  "04 Images to PDF",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\images_to_pdf.pdf"
+    },
+    {
+        "Feature":  "05 Merge PDFs",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\merge.pdf"
+    },
+    {
+        "Feature":  "06 Split PDF",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\split.pdf"
+    },
+    {
+        "Feature":  "07 Compress PDF",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\compressed.pdf"
+    },
+    {
+        "Feature":  "08 Protect PDF",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\protected.pdf"
+    },
+    {
+        "Feature":  "09 Unlock PDF",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\unlocked.pdf"
+    },
+    {
+        "Feature":  "10 Sign PDF",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\signed.pdf"
+    },
+    {
+        "Feature":  "11 Remove Watermark",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\watermark_removed.pdf"
+    },
+    {
+        "Feature":  "12 Remove Password",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\no_password.pdf"
+    },
+    {
+        "Feature":  "13 OCR",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\ocr.txt"
+    },
+    {
+        "Feature":  "14 Translate Document",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\translated.txt"
+    },
+    {
+        "Feature":  "15 Transcribe Audio to TXT",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\transcribed.txt"
+    },
+    {
+        "Feature":  "16 YouTube to MP3",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\youtube_mp3.bin"
+    },
+    {
+        "Feature":  "17 YouTube to MP4",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\youtube_mp4.bin"
+    },
+    {
+        "Feature":  "18 YouTube Playlist to MP3",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\yt_playlist_mp3.zip"
+    },
+    {
+        "Feature":  "19 YouTube Playlist to MP4",
+        "Code":  "200",
+        "Pass":  true,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\yt_playlist_mp4.zip"
+    },
+    {
+        "Feature":  "20 Spotify to MP3",
+        "Code":  "504",
+        "Pass":  false,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\spotify_mp3.bin"
+    },
+    {
+        "Feature":  "21 Spotify Playlist to MP3",
+        "Code":  "000",
+        "Pass":  false,
+        "Output":  "C:\\Users\\e617\\OneDrive - ALTEN Group\\Documentos\\Projetos\\pdftoword\\.test_artifacts_20260309_232947\\\\spotify_playlist.zip"
+    }
+]

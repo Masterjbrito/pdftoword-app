@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}AITools — Free PDF, Document & Media Tools Online{% endblock %}
+{% block meta_desc %}Free online tools for PDF conversion, editing, document translation, YouTube & Spotify downloads. No signup needed.{% endblock %}
+
+{% block content %}
+<main class="page with-rails">
+
+  <!-- Left Rail Ads -->
+  <aside class="rail rail-left">
+    <div class="ad-slot ad-sidebar-lg">
+      <ins class="adsbygoogle"
+           style="display:block;width:240px;height:600px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="1111111111"
+           data-ad-format="fixed">
+      </ins>
+    </div>
+    <div class="ad-slot ad-sidebar">
+      <ins class="adsbygoogle"
+           style="display:block;width:240px;height:250px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="2222222222"
+           data-ad-format="fixed">
+      </ins>
+    </div>
+  </aside>
+
+  <!-- Center Column -->
+  <section class="center-column">
+
+    <!-- Top Leaderboard Ad -->
+    <div class="ad-slot ad-leaderboard">
+      <ins class="adsbygoogle"
+           style="display:block;width:100%;height:90px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="3333333333"
+           data-ad-format="horizontal">
+      </ins>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero-card">
+      <span class="hero-badge">⚡ 22 High-Performance Tools</span>
+      <h1>Intelligent Document <br> & Media Processing</h1>
+      <p class="subtitle">Experience frictionless conversion, editing, and ultra-fast media downloads in a secure, completely free environment. Powered by advanced algorithms for maximum speed.</p>
+      
+      <div style="display: flex; gap: 16px; justify-content: center; margin-bottom: 24px;">
+        <a class="cta-link" href="/ferramentas">
+          Launch Tools →
+        </a>
+        <a class="cta-link" href="https://github.com" target="_blank" style="background: rgba(255,255,255,0.05); color: var(--text); box-shadow: none; border: 1px solid var(--border-soft);">
+          View Source
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-value">22</span>
+          <span class="stat-label">Pro Tools</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">1ms</span>
+          <span class="stat-label">Latency</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">Free</span>
+          <span class="stat-label">Always</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rectangle Ad -->
+    <div class="ad-slot ad-rectangle">
+      <ins class="adsbygoogle"
+           style="display:block;width:100%;height:250px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="4444444444"
+           data-ad-format="rectangle">
+      </ins>
+    </div>
+
+    <!-- Category grid -->
+    <div class="cat-grid">
+      <a class="cat-card" href="/ferramentas/pdf-to-word">
+        <div class="cat-card-icon">📄</div>
+        <h3>Conversion</h3>
+        <p>PDF↔Word, PDF↔Images, merge and split.</p>
+      </a>
+      <a class="cat-card" href="/ferramentas/compress-pdf">
+        <div class="cat-card-icon">✏️</div>
+        <h3>PDF Editing</h3>
+        <p>Compress, sign, watermark, merge PDFs.</p>
+      </a>
+      <a class="cat-card" href="/ferramentas/protect-pdf">
+        <div class="cat-card-icon">🔒</div>
+        <h3>Security</h3>
+        <p>Protect, unlock and remove PDF passwords.</p>
+      </a>
+      <a class="cat-card" href="/ferramentas/youtube-to-mp3">
+        <div class="cat-card-icon">🎵</div>
+        <h3>Media & Text</h3>
+        <p>YouTube/Spotify downloads, OCR, translate.</p>
+      </a>
+    </div>
+
+    <!-- Most Used -->
+    <h2 class="section-heading"><span class="cat-icon">🔥</span> Most Popular Tools</h2>
+    <div class="quick-grid">
+      {% set popular = [
+        ('pdf-to-word', '📄', 'PDF to Word'),
+        ('word-to-pdf', '📝', 'Word to PDF'),
+        ('compress-pdf', '🗜️', 'Compress PDF'),
+        ('merge-pdf', '📚', 'Merge PDFs'),
+        ('youtube-to-mp3', '🎵', 'YouTube → MP3'),
+        ('youtube-to-mp4', '🎬', 'YouTube → MP4'),
+        ('translate', '🌐', 'Translate Document'),
+        ('split-pdf', '✂️', 'Split PDF'),
+      ] %}
+      {% for slug, icon, label in popular %}
+      <a class="quick-btn" href="/ferramentas/{{ slug }}">
+        <span>{{ icon }}</span> {{ label }}
+      </a>
+      {% endfor %}
+    </div>
+
+    <!-- Second Rectangle Ad -->
+    <div class="ad-slot ad-rectangle">
+      <ins class="adsbygoogle"
+           style="display:block;width:100%;height:250px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="5555555555"
+           data-ad-format="rectangle">
+      </ins>
+    </div>
+
+  </section>
+
+  <!-- Right Rail Ads -->
+  <aside class="rail rail-right">
+    <div class="ad-slot ad-sidebar-lg">
+      <ins class="adsbygoogle"
+           style="display:block;width:240px;height:600px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="6666666666"
+           data-ad-format="fixed">
+      </ins>
+    </div>
+    <div class="ad-slot ad-sidebar">
+      <ins class="adsbygoogle"
+           style="display:block;width:240px;height:250px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="7777777777"
+           data-ad-format="fixed">
+      </ins>
+    </div>
+  </aside>
+
+</main>
+{% endblock %}

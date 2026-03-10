@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}All Tools — AITools Free PDF & Media Converter{% endblock %}
+{% block meta_desc %}Browse all 22 free tools: PDF conversion, editing, security, OCR, translation, YouTube & Spotify downloads.{% endblock %}
+
+{% block content %}
+<main class="page with-rails">
+
+  <!-- Left Rail Ad -->
+  <aside class="rail rail-left">
+    <div class="ad-slot ad-sidebar-lg">
+      <ins class="adsbygoogle"
+           style="display:block;width:240px;height:600px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="1111111111"
+           data-ad-format="fixed">
+      </ins>
+    </div>
+    <div class="ad-slot ad-sidebar">
+      <ins class="adsbygoogle"
+           style="display:block;width:240px;height:250px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="2222222222"
+           data-ad-format="fixed">
+      </ins>
+    </div>
+  </aside>
+
+  <!-- Center Column -->
+  <section class="center-column">
+
+    <!-- Top Leaderboard Ad -->
+    <div class="ad-slot ad-leaderboard">
+      <ins class="adsbygoogle"
+           style="display:block;width:100%;height:90px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="3333333333"
+           data-ad-format="horizontal">
+      </ins>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+
+    <div class="detail-card" style="margin-bottom:24px;">
+      <h1>All Tools</h1>
+      <p class="subtitle">22 free tools for all your document and media needs. No signup required.</p>
+    </div>
+
+    <!-- Conversion -->
+    {% set categories = [
+      ('conversao', '📄', 'Conversion'),
+      ('edicao', '✏️', 'PDF Editing'),
+      ('seguranca', '🔒', 'Security'),
+      ('texto', '🔤', 'Text & OCR'),
+      ('media', '🎵', 'Media Download'),
+    ] %}
+
+    {% set tool_icons = {
+      'pdf-to-word': '📄',
+      'word-to-pdf': '📝',
+      'pdf-to-images': '🖼️',
+      'images-to-pdf': '📚',
+      'merge-pdf': '🔗',
+      'split-pdf': '✂️',
+      'compress-pdf': '🗜️',
+      'protect-pdf': '🔒',
+      'unlock-pdf': '🔓',
+      'sign-pdf': '✍️',
+      'remove-watermark': '🚫',
+      'remove-password': '🗝️',
+      'ocr': '🔍',
+      'translate': '🌐',
+      'transcribe-audio': '🎙️',
+      'youtube-to-mp3': '🎵',
+      'youtube-to-mp4': '🎬',
+      'youtube-playlist-to-mp3': '🎼',
+      'youtube-playlist-to-mp4': '📽️',
+      'spotify-to-mp3': '🎶',
+      'spotify-playlist-to-mp3': '🎧',
+    } %}
+
+    {% for cat_key, cat_icon, cat_name in categories %}
+    <div class="tools-section">
+      <h2 class="section-heading"><span>{{ cat_icon }}</span> {{ cat_name }}</h2>
+      <div class="tools-grid">
+        {% for slug in category_items[cat_key] %}
+        <a class="tool-card" href="/ferramentas/{{ slug }}">
+          <div class="tool-card-icon">{{ tool_icons.get(slug, '🔧') }}</div>
+          <h3>{{ tool_map[slug] }}</h3>
+          <p>{{ tool_desc.get(slug, '') }}</p>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-rectangle">
+      <ins class="adsbygoogle"
+           style="display:block;width:100%;height:250px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="4444444444"
+           data-ad-format="rectangle">
+      </ins>
+    </div>
+
+  </section>
+
+  <!-- Right Rail Ad -->
+  <aside class="rail rail-right">
+    <div class="ad-slot ad-sidebar-lg">
+      <ins class="adsbygoogle"
+           style="display:block;width:240px;height:600px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="6666666666"
+           data-ad-format="fixed">
+      </ins>
+    </div>
+    <div class="ad-slot ad-sidebar">
+      <ins class="adsbygoogle"
+           style="display:block;width:240px;height:250px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="7777777777"
+           data-ad-format="fixed">
+      </ins>
+    </div>
+  </aside>
+
+</main>
+{% endblock %}

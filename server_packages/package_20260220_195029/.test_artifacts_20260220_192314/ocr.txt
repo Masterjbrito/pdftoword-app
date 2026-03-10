@@ -1,0 +1,182 @@
+--- PÃ¡gina 1 ---
+Personal Information
+Gestor(a) de Projecto Sénior
+10 years of experience
+Main Technologies / Frameworks & Methodologies
+Name
+Level of Knowledge
+Years of Experience
+Gestão de equipas
+4
+7
+SCRUM Master
+4
+6
+Agile
+4
+6
+JIRA
+4
+6
+Project Management
+4
+6
+Análise Funcional
+4
+10
+IA
+2
+2
+Product Owner
+3
+6
+UI/UX Android Design
+2
+4
+UI/UX iOS Design
+2
+4
+Professional Experience
+ITSector
+Period
+From 9/26/2016 to Actually
+Position
+Senior Proejct Manager
+Team Size
+18
+617
+
+
+--- PÃ¡gina 2 ---
+ITSector
+Main Activities
+and responsibilities
+- Overseeing the full lifecycle of digital banking projects across fixed-
+price and time & materials models, ensuring on-time and on-budget 
+delivery.
+- Managing complex API-driven integration programs (Open Banking, 
+Core Banking, Middleware, and Digital Channels).
+- Leading the implementation of API Factories and governance models 
+based on Spring Boot, .NET, MuleSoft, and Apigee.
+- Coordinating mobile and web app development (Android, iOS, 
+Flutter, Angular, React) for retail and corporate banking.
+- Defining functional and technical requirements, aligning IT and 
+business goals for high-impact digital transformation initiatives.
+- Creating and maintaining project documentation, including timelines, 
+budgets, risk logs, and architecture diagrams.
+- Producing visual materials (roadmaps, Gantt charts, delivery plans) 
+to align stakeholders and executive sponsors.
+- Allocating financial, human, and technical resources efficiently across
+multiple parallel projects.
+- Leading Agile ceremonies (sprint planning, reviews, retrospectives) 
+and driving continuous improvement within delivery teams.
+- Monitoring KPIs, SLAs, and delivery metrics, ensuring consistent 
+service quality and early risk detection.
+- Acting as main point of contact for clients, managing expectations 
+and executive reporting.
+- Ensuring cross-project coordination and alignment with enterprise 
+architecture and transformation roadmaps.
+- Managing vendor and partner relationships, ensuring compliance 
+with internal security and quality standards.
+- Supporting QA and testing processes, including automated testing 
+strategies and UAT coordination.
+- Coaching and mentoring team members, promoting knowledge 
+sharing and upskilling across development squads.
+- Leading budget management, forecast control, and financial follow-
+up for multi-country delivery teams.
+- Driving continuous delivery improvements through DevOps practices, 
+CI/CD pipelines, and release automation.
+- Ensuring strict adherence to ISO 27001, ITIL, and Agile governance 
+frameworks.
+- Contributing to strategic planning, identifying innovation opportunities 
+in API monetization, microservices, and AI integration.
+Technologies
+- Project & Agile Tools: Jira, Confluence, Azure DevOps, Miro, MS 
+Project, MS Teams
+- Integration & API Management: Apigee, MuleSoft, Spring Boot, .NET 
+Core, Node.js, Swagger / OpenAPI, REST / SOAP
+- Mobile & Web Development: Android (Java/Kotlin), iOS 
+(Swift/SwiftUI), Flutter, Angular, React, Next.js
+- CI/CD & DevOps: Git, GitHub, Jenkins, Docker, Kubernetes, 
+SonarQube, Azure Pipelines
+- Data & Monitoring: Power BI, Kibana, Grafana, SQL Server, 
+PostgreSQL
+- Quality & Testing: Xray, TestLink, Selenium, Postman, Cucumber
+- Standards & Frameworks: ITIL, ISO 27001, SAFe Agile, PMI-PMP
+
+
+--- PÃ¡gina 3 ---
+Education
+Institution
+Degree
+Period
+NOVA  IMS
+Postgraduate  Program in Information Sys
+From 2018 to 
+2019
+Instituto Superior Técnico
+Oil and Gas
+From 2013 to 
+2015
+Universidade Nova de Lisboa 
+geological engineering
+From 2007 to 
+2013
+Languages
+Language
+Level of Reading
+Level of Writing
+Level of Talking
+Portuguese
+5
+5
+5
+English
+4
+3
+4
+Spanish
+4
+3
+4
+Aubay
+Period
+From 9/1/2015 to 8/31/2016
+Position
+Data Modeler
+Team Size
+2
+Main Activities
+and responsibilities
+- Functional analyst
+-Tester analyst 
+- Quality Assurance Tester (Unit Testing,Functional Testing, 
+Integration Testing Regression Testing)
+- Analysis and resolution functions in production and quality 
+environment
+- Interaction with other teams through oral and written communication, 
+in order do debate and explore solutions together
+- Organizational skills in production cicle
+- Direct link to business areas and clients
+- Use of methodologies and business analysis tools
+Technologies
+- Rest
+- DataPower
+- Mainframe 
+Training & Certification
+Institution
+Certification
+Period
+Strongstep
+Management risk
+From 2020 to 
+2025
+Scrum Alliance
+944141 - CSM (201807655)
+From 2018 to 
+2020
+
+
+--- PÃ¡gina 4 ---
+Hobbies
+Padel ; Running ; Photo

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AITools - PDF para Word</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand">AITools</a>
+      <nav class="main-nav">
+        <a href="/">Home</a>
+        <a href="/converter">PDF para Word</a>
+        <a href="#funcionalidades">Funcionalidades</a>
+        <a href="#publicidade">Publicidade</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="ad-top" id="publicidade">
+      <p>Espaço Publicitário 970x90 (Topo Ferramenta)</p>
+    </section>
+
+    <section class="layout">
+      <section class="card" id="converter">
+        <h1>PDF para Word</h1>
+        <p class="subtitle">Converta PDF para DOCX com tradução opcional.</p>
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form id="convertForm" action="/convert" method="post" enctype="multipart/form-data">
+          <label class="label" for="pdf_file">Ficheiro PDF</label>
+          <input id="pdf_file" name="pdf_file" type="file" accept=".pdf,application/pdf" required>
+
+          <label class="row">
+            <input id="translate" name="translate" type="checkbox" checked>
+            <span>Traduzir documento</span>
+          </label>
+
+          <div class="grid">
+            <div>
+              <label class="label" for="source_lang">Idioma origem</label>
+              <select id="source_lang" name="source_lang">
+                <option value="auto" selected>Auto</option>
+                <option value="en">Inglês</option>
+                <option value="pt">Português</option>
+                <option value="es">Espanhol</option>
+                <option value="fr">Francês</option>
+                <option value="de">Alemão</option>
+                <option value="it">Italiano</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="target_lang">Idioma destino</label>
+              <select id="target_lang" name="target_lang">
+                <option value="pt" selected>Português</option>
+                <option value="en">Inglês</option>
+                <option value="es">Espanhol</option>
+                <option value="fr">Francês</option>
+                <option value="de">Alemão</option>
+                <option value="it">Italiano</option>
+              </select>
+            </div>
+          </div>
+
+          <button id="submitBtn" type="submit">Converter e descarregar</button>
+        </form>
+
+        <p id="loading" class="loading hidden">A processar... isto pode levar alguns segundos.</p>
+      </section>
+
+      <aside class="side-panel" id="funcionalidades">
+        <section class="menu-card">
+          <h2>Funcionalidades</h2>
+          <ul>
+            <li>Conversão PDF para DOCX</li>
+            <li>Tradução automática</li>
+            <li>Seleção de idioma origem/destino</li>
+            <li>Download imediato</li>
+          </ul>
+        </section>
+
+        <section class="ad-box">
+          <p>Espaço Publicitário 300x250</p>
+        </section>
+
+        <section class="ad-box ad-tall">
+          <p>Espaço Publicitário 300x600</p>
+        </section>
+
+        <section class="ad-box">
+          <p>Espaço Publicitário 320x100</p>
+        </section>
+      </aside>
+    </section>
+
+    <section class="home-ads-grid">
+      <section class="ad-box ad-wide"><p>Espaço Publicitário 970x250 (Fim da página)</p></section>
+      <section class="ad-box"><p>Espaço Publicitário 728x90</p></section>
+      <section class="ad-box"><p>Espaço Publicitário 300x250</p></section>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("convertForm");
+    const button = document.getElementById("submitBtn");
+    const loading = document.getElementById("loading");
+    const translate = document.getElementById("translate");
+    const source = document.getElementById("source_lang");
+    const target = document.getElementById("target_lang");
+
+    function toggleTranslateOptions() {
+      const enabled = translate.checked;
+      source.disabled = !enabled;
+      target.disabled = !enabled;
+    }
+
+    translate.addEventListener("change", toggleTranslateOptions);
+    toggleTranslateOptions();
+
+    form.addEventListener("submit", () => {
+      button.disabled = true;
+      button.textContent = "A converter...";
+      loading.classList.remove("hidden");
+    });
+  </script>
+</body>
+</html>

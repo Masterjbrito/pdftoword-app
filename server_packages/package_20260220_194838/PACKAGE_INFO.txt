@@ -1,0 +1,17 @@
+﻿Package Version: 20260220_194838
+Created At: 2026-02-20 19:48:38 +00:00
+Project Root: C:\Users\e617\OneDrive - ALTEN Group\Documentos\Projetos\pdftoword
+
+Included files:
+- web_app.py
+- requirements.txt
+- Procfile
+- README.md
+- templates/*.html
+- static/*
+
+Run on server:
+python -m venv .venv
+.\\.venv\\Scripts\\Activate.ps1  (Windows)
+pip install -r requirements.txt
+python web_app.py

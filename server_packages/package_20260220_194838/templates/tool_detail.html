@@ -1,0 +1,246 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AITools - {{ tool_title }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand">AITools</a>
+      <nav class="main-nav">
+        <a href="/">Home</a>
+        <a href="/ferramentas">Features</a>
+        <div class="hover-tools">
+          <span class="hover-trigger">Categories</span>
+          <div class="hover-panel">
+            <div class="hover-col">
+              <h4>Conversion</h4>
+              {% for slug in category_items["conversao"] %}
+              <a href="/ferramentas/{{ slug }}">{{ tool_map[slug] }}</a>
+              {% endfor %}
+            </div>
+            <div class="hover-col">
+              <h4>PDF Editing</h4>
+              {% for slug in category_items["edicao"] %}
+              <a href="/ferramentas/{{ slug }}">{{ tool_map[slug] }}</a>
+              {% endfor %}
+            </div>
+            <div class="hover-col">
+              <h4>Security</h4>
+              {% for slug in category_items["seguranca"] %}
+              <a href="/ferramentas/{{ slug }}">{{ tool_map[slug] }}</a>
+              {% endfor %}
+            </div>
+            <div class="hover-col">
+              <h4>Text & Media</h4>
+              {% for slug in category_items["texto"] %}
+              <a href="/ferramentas/{{ slug }}">{{ tool_map[slug] }}</a>
+              {% endfor %}
+              {% for slug in category_items["media"] %}
+              <a href="/ferramentas/{{ slug }}">{{ tool_map[slug] }}</a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page with-rails">
+    <aside class="rail rail-left">
+      <section class="ad-box ad-tall"><p>Sidebar Ad 300x600</p></section>
+      <section class="ad-box"><p>Ad 300x250</p></section>
+      <section class="ad-box"><p>Ad 300x250</p></section>
+    </aside>
+
+    <section class="center-column">
+      <section class="ad-top"><p>Top Ad 970x90</p></section>
+      <section class="ad-box ad-inline"><p>Premium Ad 970x250</p></section>
+
+      {% if error %}
+      <div class="error global-error">{{ error }}</div>
+      {% endif %}
+
+      <section class="tool-card detail-card">
+        <h1>{{ tool_title }}</h1>
+        <p class="subtitle">{{ tool_desc }} <a href="/ferramentas">Back to features.</a></p>
+
+        {% if tool_slug == 'pdf-to-word' %}
+        <form action="/tools/pdf-to-word" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_tool" value="pdf-to-word">
+          <input type="file" name="pdf_file" accept=".pdf" required>
+          <label class="row"><input type="checkbox" name="translate" checked><span>Translate after conversion</span></label>
+          <div class="grid">
+            <select name="source_lang"><option value="auto">Source Auto</option><option value="en">English</option><option value="pt">Portuguese</option></select>
+            <select name="target_lang"><option value="pt">Target Portuguese</option><option value="en">English</option><option value="es">Spanish</option></select>
+          </div>
+          <button type="submit">Convert</button>
+        </form>
+        {% elif tool_slug == 'word-to-pdf' %}
+        <form action="/tools/word-to-pdf" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_tool" value="word-to-pdf">
+          <input type="file" name="word_file" accept=".docx" required>
+          <button type="submit">Convert</button>
+        </form>
+        {% elif tool_slug == 'pdf-to-images' %}
+        <form action="/tools/pdf-to-images" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_tool" value="pdf-to-images">
+          <input type="file" name="pdf_file_images" accept=".pdf" required>
+          <label class="label">Scale (1-4)</label>
+          <input type="number" name="scale" min="1" max="4" step="0.5" value="2">
+          <button type="submit">Convert</button>
+        </form>
+        {% elif tool_slug == 'images-to-pdf' %}
+        <form action="/tools/images-to-pdf" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_tool" value="images-to-pdf">
+          <input type="file" name="image_files" accept=".png,.jpg,.jpeg,.webp,.bmp,.tiff" multiple required>
+          <button type="submit">Generate PDF</button>
+        </form>
+        {% elif tool_slug == 'merge-pdf' %}
+        <form action="/tools/merge-pdf" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_tool" value="merge-pdf">
+          <input type="file" name="merge_files" accept=".pdf" multiple required>
+          <button type="submit">Merge</button>
+        </form>
+        {% elif tool_slug == 'split-pdf' %}
+        <form action="/tools/split-pdf" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_tool" value="split-pdf">
+          <input type="file" name="split_file" accept=".pdf" required>
+          <select name="split_mode">
+            <option value="all">All pages (ZIP)</option>
+            <option value="range">Page range</option>
+          </select>
+          <div class="grid">
+            <input type="number" name="start_page" min="1" placeholder="Start">
+            <input type="number" name="end_page" min="1" placeholder="End">
+          </div>
+          <button type="submit">Split</button>
+        </form>
+        {% elif tool_slug == 'compress-pdf' %}
+        <form action="/tools/compress-pdf" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_tool" value="compress-pdf">
+          <input type="file" name="compress_file" accept=".pdf" required>
+          <button type="submit">Compress</button>
+        </form>
+        {% elif tool_slug == 'protect-pdf' %}
+        <form action="/tools/protect-pdf" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_tool" value="protect-pdf">
+          <input type="file" name="protect_file" accept=".pdf" required>
+          <input type="password" name="password" placeholder="Document password" required>
+          <input type="password" name="owner_password" placeholder="Owner password (optional)">
+          <button type="submit">Protect</button>
+        </form>
+        {% elif tool_slug == 'unlock-pdf' %}
+        <form action="/tools/unlock-pdf" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_tool" value="unlock-pdf">
+          <input type="file" name="unlock_file" accept=".pdf" required>
+          <input type="password" name="unlock_password" placeholder="Current password" required>
+          <button type="submit">Unlock</button>
+        </form>
+        {% elif tool_slug == 'sign-pdf' %}
+        <form action="/tools/sign-pdf" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_tool" value="sign-pdf">
+          <input type="file" name="sign_file" accept=".pdf" required>
+          <input type="text" name="signature_text" placeholder="Signature text" value="Digitally signed by AITools">
+          <input type="file" name="signature_image" accept=".png,.jpg,.jpeg">
+          <select name="signature_page"><option value="last">Last page</option><option value="first">First page</option></select>
+          <button type="submit">Sign</button>
+        </form>
+        {% elif tool_slug == 'remove-watermark' %}
+        <form action="/tools/remove-watermark" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_tool" value="remove-watermark">
+          <input type="file" name="watermark_file" accept=".pdf" required>
+          <input type="text" name="watermark_text" placeholder="Exact watermark text" required>
+          <button type="submit">Remove watermark</button>
+        </form>
+        {% elif tool_slug == 'remove-password' %}
+        <form action="/tools/remove-password" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_tool" value="remove-password">
+          <input type="file" name="remove_pass_file" accept=".pdf" required>
+          <input type="password" name="remove_pass_value" placeholder="Current password (if any)">
+          <button type="submit">Remove password</button>
+        </form>
+        {% elif tool_slug == 'ocr' %}
+        <form action="/tools/ocr" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_tool" value="ocr">
+          <input type="file" name="ocr_file" accept=".pdf,.png,.jpg,.jpeg,.webp,.bmp,.tiff" required>
+          <input type="text" name="ocr_lang" value="eng" placeholder="OCR language (eng, por, spa...)">
+          <button type="submit">Extract text</button>
+        </form>
+        {% if not tesseract_available %}
+        <p class="hint">Image OCR requires Tesseract installed on the server.</p>
+        {% endif %}
+        {% elif tool_slug == 'translate' %}
+        <form action="/tools/translate" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_tool" value="translate">
+          <input type="file" name="translate_file" accept=".docx,.pdf,.txt" required>
+          <div class="grid">
+            <select name="tr_source"><option value="auto">Source Auto</option><option value="en">English</option><option value="pt">Portuguese</option></select>
+            <select name="tr_target"><option value="en">Target English</option><option value="pt">Portuguese</option><option value="es">Spanish</option></select>
+          </div>
+          <button type="submit">Translate</button>
+        </form>
+        {% elif tool_slug == 'transcribe-audio' %}
+        <form action="/tools/transcribe-audio" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_tool" value="transcribe-audio">
+          <input type="file" name="audio_file" accept=".mp3,.wav,.m4a,.ogg,.flac,.mp4,.webm,.mov" required>
+          <input type="text" name="audio_lang" value="en-US" placeholder="Language (en-US, pt-PT, es-ES...)">
+          <button type="submit">Transcribe to TXT</button>
+        </form>
+        {% elif tool_slug == 'youtube-to-mp3' %}
+        <form action="/tools/youtube-to-mp3" method="post">
+          <input type="hidden" name="_tool" value="youtube-to-mp3">
+          <input type="url" name="youtube_url" placeholder="https://www.youtube.com/watch?v=..." required>
+          <button type="submit">Convert to MP3</button>
+        </form>
+        {% elif tool_slug == 'youtube-to-mp4' %}
+        <form action="/tools/youtube-to-mp4" method="post">
+          <input type="hidden" name="_tool" value="youtube-to-mp4">
+          <input type="url" name="youtube_url_mp4" placeholder="https://www.youtube.com/watch?v=..." required>
+          <button type="submit">Convert to MP4</button>
+        </form>
+        {% elif tool_slug == 'youtube-playlist-to-mp3' %}
+        <form action="/tools/youtube-playlist-to-mp3" method="post">
+          <input type="hidden" name="_tool" value="youtube-playlist-to-mp3">
+          <input type="url" name="youtube_playlist_url_mp3" placeholder="https://www.youtube.com/playlist?list=..." required>
+          <button type="submit">Convert playlist to MP3 (ZIP)</button>
+        </form>
+        {% elif tool_slug == 'youtube-playlist-to-mp4' %}
+        <form action="/tools/youtube-playlist-to-mp4" method="post">
+          <input type="hidden" name="_tool" value="youtube-playlist-to-mp4">
+          <input type="url" name="youtube_playlist_url_mp4" placeholder="https://www.youtube.com/playlist?list=..." required>
+          <button type="submit">Convert playlist to MP4 (ZIP)</button>
+        </form>
+        {% elif tool_slug == 'spotify-to-mp3' %}
+        <form action="/tools/spotify-to-mp3" method="post">
+          <input type="hidden" name="_tool" value="spotify-to-mp3">
+          <input type="url" name="spotify_url" placeholder="https://open.spotify.com/track/..." required>
+          <button type="submit">Convert Spotify to MP3</button>
+        </form>
+        {% elif tool_slug == 'spotify-playlist-to-mp3' %}
+        <form action="/tools/spotify-playlist-to-mp3" method="post">
+          <input type="hidden" name="_tool" value="spotify-playlist-to-mp3">
+          <input type="url" name="spotify_playlist_url" placeholder="https://open.spotify.com/playlist/..." required>
+          <button type="submit">Convert Spotify playlist to MP3 (ZIP)</button>
+        </form>
+        {% endif %}
+      </section>
+
+      <section class="home-ads-grid">
+        <section class="ad-box"><p>Ad 728x90</p></section>
+        <section class="ad-box"><p>Ad 300x250</p></section>
+        <section class="ad-box ad-wide"><p>Ad 970x250</p></section>
+      </section>
+    </section>
+
+    <aside class="rail rail-right">
+      <section class="ad-box ad-tall"><p>Sidebar Ad 300x600</p></section>
+      <section class="ad-box"><p>Ad 300x250</p></section>
+      <section class="ad-box"><p>Ad 300x250</p></section>
+    </aside>
+  </main>
+</body>
+</html>

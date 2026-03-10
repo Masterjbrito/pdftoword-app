@@ -1,0 +1,102 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AITools - Home</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand">AITools</a>
+      <nav class="main-nav">
+        <a href="/">Home</a>
+        <a href="/ferramentas">Features</a>
+        <div class="hover-tools">
+          <span class="hover-trigger">Categories</span>
+          <div class="hover-panel">
+            <div class="hover-col">
+              <h4>Conversion</h4>
+              {% for slug in category_items["conversao"] %}
+              <a href="/ferramentas/{{ slug }}">{{ tool_map[slug] }}</a>
+              {% endfor %}
+            </div>
+            <div class="hover-col">
+              <h4>PDF Editing</h4>
+              {% for slug in category_items["edicao"] %}
+              <a href="/ferramentas/{{ slug }}">{{ tool_map[slug] }}</a>
+              {% endfor %}
+            </div>
+            <div class="hover-col">
+              <h4>Security</h4>
+              {% for slug in category_items["seguranca"] %}
+              <a href="/ferramentas/{{ slug }}">{{ tool_map[slug] }}</a>
+              {% endfor %}
+            </div>
+            <div class="hover-col">
+              <h4>Text & Media</h4>
+              {% for slug in category_items["texto"] %}
+              <a href="/ferramentas/{{ slug }}">{{ tool_map[slug] }}</a>
+              {% endfor %}
+              {% for slug in category_items["media"] %}
+              <a href="/ferramentas/{{ slug }}">{{ tool_map[slug] }}</a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page with-rails">
+    <aside class="rail rail-left">
+      <section class="ad-box ad-tall"><p>Sidebar Ad 300x600</p></section>
+      <section class="ad-box"><p>Sidebar Ad 300x250</p></section>
+      <section class="ad-box"><p>Sidebar Ad 300x250</p></section>
+    </aside>
+
+    <section class="center-column">
+      <section class="ad-top"><p>Top Ad 970x90</p></section>
+      <section class="ad-box ad-inline"><p>Premium Ad 970x250</p></section>
+
+      <section class="hero-card">
+        <h1>Document tools built for traffic monetization</h1>
+        <p class="subtitle">A complete suite for conversion, editing and media download. Use the header menu to navigate features.</p>
+        <a class="cta-link" href="/ferramentas">Open Features</a>
+      </section>
+
+      <section class="home-ads-grid">
+        <section class="ad-box"><p>Ad 728x90</p></section>
+        <section class="ad-box"><p>Ad 300x250</p></section>
+        <section class="ad-box ad-wide"><p>Ad 970x250</p></section>
+        <section class="ad-box"><p>Ad 336x280</p></section>
+        <section class="ad-box"><p>Ad 728x90</p></section>
+        <section class="ad-box"><p>Ad 300x250</p></section>
+      </section>
+
+      <section class="ad-top"><p>Middle Ad 970x90</p></section>
+
+      <section class="home-ads-grid">
+        <section class="ad-box ad-wide"><p>Ad 970x250</p></section>
+        <section class="ad-box"><p>Ad 300x250</p></section>
+        <section class="ad-box"><p>Ad 300x600</p></section>
+        <section class="ad-box"><p>Ad 728x90</p></section>
+      </section>
+
+      <section class="ad-wall">
+        <section class="ad-box"><p>Footer Ad 300x250</p></section>
+        <section class="ad-box"><p>Footer Ad 300x250</p></section>
+        <section class="ad-box"><p>Footer Ad 300x250</p></section>
+        <section class="ad-box"><p>Footer Ad 300x250</p></section>
+      </section>
+    </section>
+
+    <aside class="rail rail-right">
+      <section class="ad-box ad-tall"><p>Sidebar Ad 300x600</p></section>
+      <section class="ad-box"><p>Sidebar Ad 300x250</p></section>
+      <section class="ad-box"><p>Sidebar Ad 300x250</p></section>
+    </aside>
+  </main>
+</body>
+</html>

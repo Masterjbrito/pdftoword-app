@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: pdftoword-app
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements-server.txt
+    startCommand: gunicorn web_app:app
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9

@@ -12,7 +12,5 @@ yt-dlp==2026.2.4
 spotdl==3.9.6
 SpeechRecognition==3.10.4
 pydub==0.25.1
-standard-aifc==3.13.0
-audioop-lts==0.2.2
 img2pdf==0.5.1
 requests==2.32.5

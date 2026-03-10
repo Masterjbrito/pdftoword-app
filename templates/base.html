@@ -80,11 +80,8 @@
               {% endfor %}
             </div>
             <div class="hover-col">
-              <h4><span class="cat-icon">🎵</span> Text & Media</h4>
+              <h4><span class="cat-icon">🔍</span> AI & Text</h4>
               {% for slug in category_items["texto"] %}
-              <a href="/ferramentas/{{ slug }}">{{ tool_map[slug] }}</a>
-              {% endfor %}
-              {% for slug in category_items["media"] %}
               <a href="/ferramentas/{{ slug }}">{{ tool_map[slug] }}</a>
               {% endfor %}
             </div>

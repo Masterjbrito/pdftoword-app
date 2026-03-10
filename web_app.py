@@ -124,6 +124,17 @@ FFMPEG_PATH = shutil.which("ffmpeg")
 LIBREOFFICE_PATH = shutil.which("libreoffice") or shutil.which("soffice")
 
 
+@app.context_processor
+def inject_globals():
+    return {
+        "adsense_id": os.environ.get("ADSENSE_CLIENT_ID", "ca-pub-XXXXXXXXXXXXXXXX"),
+        "category_items": CATEGORY_ITEMS,
+        "tool_map": TOOL_MAP,
+        "tools": TOOLS,
+        "tesseract_available": TESSERACT_AVAILABLE,
+    }
+
+
 def unique_name(stem: str, suffix: str) -> str:
     safe_stem = secure_filename(stem) or "file"
     return f"{safe_stem}_{uuid.uuid4().hex[:10]}{suffix}"

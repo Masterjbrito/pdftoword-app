@@ -212,6 +212,17 @@
     </div>
   </div>
 
+  <!-- AdBlock Notice Modal -->
+  <div id="adblock-notice" class="adblock-modal">
+    <div class="adblock-content detail-card">
+      <div class="adblock-icon">🌟</div>
+      <h2>Hello! We need your help...</h2>
+      <p><strong>AITools</strong> is a free project that we maintain with a lot of care. To keep offering high-quality tools without any costs, we rely on advertisement support.</p>
+      <p class="sweet-text">Could you please disable your ad blocker for this site? We promise we're not annoying! ✨</p>
+      <button onclick="location.reload()" class="cta-link" style="margin-top: 20px;">I've disabled it, thanks!</button>
+    </div>
+  </div>
+
   <script>
     // Lively Background Scroll Animation
     window.addEventListener('scroll', () => {
@@ -230,6 +241,25 @@
         cookieBanner.classList.remove('active');
       });
     }
+
+    // AdBlock Detection
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        // Create a dummy ad element
+        const ad = document.createElement('div');
+        ad.className = 'adsbygoogle pub_300x250 pub_300x250m pub_728x90 text-ad text_ad ad-link ad_link';
+        ad.style.cssText = 'width:1px !important;height:1px !important;position:absolute !important;left:-10000px !important;top:-1000px !important;';
+        document.body.appendChild(ad);
+        
+        const isBlocked = window.getComputedStyle(ad).getPropertyValue('display') === 'none' || ad.offsetHeight === 0;
+        
+        if (isBlocked || !window.adsbygoogle || (window.adsbygoogle && window.adsbygoogle.loaded === false)) {
+          console.log("Adblock detected");
+          document.getElementById('adblock-notice').classList.add('active');
+        }
+        document.body.removeChild(ad);
+      }, 2000);
+    });
   </script>
 
   <!-- Cookie Consent Banner -->
@@ -273,6 +303,45 @@
     .cookie-content a { color: var(--accent); text-decoration: none; }
     @media (max-width: 600px) {
       .cookie-content { flex-direction: column; text-align: center; }
+    }
+
+    /* AdBlock Modal Styles */
+    .adblock-modal {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.5s ease;
+      padding: 20px;
+    }
+    .adblock-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .adblock-content {
+      max-width: 450px;
+      text-align: center;
+      padding: 40px !important;
+      transform: scale(0.9);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .adblock-modal.active .adblock-content {
+      transform: scale(1);
+    }
+    .adblock-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+    .sweet-text {
+      font-style: italic;
+      color: var(--accent);
+      margin-top: 16px;
     }
   </style>
 </body>

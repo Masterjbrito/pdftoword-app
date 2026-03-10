@@ -1195,6 +1195,14 @@ def file_too_large(_):
     return template_error("Ficheiro demasiado grande. Limite atual: 40MB.", 413)
 
 
+@app.get("/ads.txt")
+def ads_txt():
+    # Standard AdSense ads.txt content
+    # Format: google.com, pub-PUBLISHER_ID, DIRECT/RESELLER, TAG_ID
+    content = "google.com, pub-3114217198436430, DIRECT, f08c47fec0942fa0\n"
+    return content, 200, {"Content-Type": "text/plain"}
+
+
 @app.get("/robots.txt")
 def robots_txt():
     base_url = os.environ.get("BASE_URL", request.host_url.rstrip("/"))

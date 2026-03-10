@@ -133,7 +133,7 @@ def inject_globals():
     filtered_tool_map = {slug: title for slug, title in filtered_tools}
 
     return {
-        "adsense_id": os.environ.get("ADSENSE_CLIENT_ID", "ca-pub-XXXXXXXXXXXXXXXX"),
+        "adsense_id": os.environ.get("ADSENSE_CLIENT_ID", "ca-pub-3114217198436430"),
         "base_url": os.environ.get("BASE_URL", request.host_url.rstrip("/")),
         "category_items": filtered_category_items,
         "tool_map": filtered_tool_map,

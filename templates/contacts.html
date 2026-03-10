@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Contactos — AITools{% endblock %}
+
+{% block content %}
+<main class="page with-rails">
+  <div class="content-rail">
+    <div class="detail-card reveal-element is-visible">
+      <h1 class="section-heading">Contactos</h1>
+      <div class="static-content" style="color: var(--text-dim); line-height: 1.8; text-align: center;">
+        <p>Tem dúvidas, sugestões ou encontrou algum problema? Adoraríamos ouvir de si.</p>
+        
+        <div style="margin: 40px 0;">
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-soft); padding: 32px; border-radius: 20px; display: inline-block;">
+            <h3 style="color: var(--text); margin-bottom: 8px;">E-mail de Suporte</h3>
+            <p style="font-size: 1.2rem; color: var(--accent); font-weight: 600;">suporte@aitools.com</p>
+          </div>
+        </div>
+        
+        <p>Tentamos responder a todas as mensagens num prazo de 24 a 48 horas úteis.</p>
+        
+        <div style="margin-top: 40px; display: flex; gap: 12px; justify-content: center;">
+          <a href="/" class="cta-link" style="font-size: 0.9rem; padding: 10px 20px;">Voltar à Home</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

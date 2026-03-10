@@ -252,6 +252,26 @@ def tools_page():
     return render_template("tools_list.html", tools=TOOLS, tool_desc=TOOL_DESC, category_items=CATEGORY_ITEMS, tool_map=TOOL_MAP)
 
 
+@app.get("/privacidade")
+def privacy_page():
+    return render_template("privacy.html")
+
+
+@app.get("/termos")
+def terms_page():
+    return render_template("terms.html")
+
+
+@app.get("/contactos")
+def contacts_page():
+    return render_template("contacts.html")
+
+
+@app.get("/sobre")
+def about_page():
+    return render_template("about.html")
+
+
 @app.get("/ferramentas/<tool_slug>")
 def tool_detail(tool_slug: str):
     if tool_slug not in TOOL_MAP:

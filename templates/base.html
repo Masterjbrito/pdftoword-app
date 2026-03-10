@@ -103,6 +103,12 @@
     <div class="footer-inner">
       <p class="footer-brand"><span class="brand-icon">⚡</span> <strong>AITools</strong></p>
       <p class="footer-copy">Free PDF &amp; document tools. No registration required.</p>
+      <p class="footer-links" style="margin-bottom: 12px;">
+        <a href="/sobre">Sobre</a> ·
+        <a href="/contactos">Contactos</a> ·
+        <a href="/privacidade">Privacidade</a> ·
+        <a href="/termos">Termos</a>
+      </p>
       <p class="footer-links">
         <a href="/ferramentas">All Tools</a> ·
         <a href="/ferramentas/pdf-to-word">PDF to Word</a> ·
@@ -211,6 +217,63 @@
     window.addEventListener('scroll', () => {
       document.body.style.setProperty('--scroll-y', `${window.scrollY}px`);
     }, { passive: true });
+
+    // Cookie Consent
+    const cookieBanner = document.getElementById('cookie-consent');
+    const acceptBtn = document.getElementById('accept-cookies');
+    if (cookieBanner && acceptBtn) {
+      if (!localStorage.getItem('cookies-accepted')) {
+        setTimeout(() => cookieBanner.classList.add('active'), 1000);
+      }
+      acceptBtn.addEventListener('click', () => {
+        localStorage.setItem('cookies-accepted', 'true');
+        cookieBanner.classList.remove('active');
+      });
+    }
   </script>
+
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent" class="cookie-banner">
+    <div class="cookie-content">
+      <p>Utilizamos cookies para melhorar a sua experiência e analisar o tráfego. Ao continuar, aceita a nossa <a href="/privacidade">Política de Privacidade</a>.</p>
+      <button id="accept-cookies" class="cta-link" style="font-size: 0.85rem; padding: 8px 20px;">Aceitar</button>
+    </div>
+  </div>
+
+  <style>
+    .cookie-banner {
+      position: fixed;
+      bottom: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 600px;
+      background: rgba(15, 15, 20, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-soft);
+      border-radius: 20px;
+      padding: 16px 24px;
+      z-index: 10000;
+      transition: bottom 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+    .cookie-banner.active { bottom: 24px; }
+    .cookie-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .cookie-content p {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      margin: 0;
+    }
+    .cookie-content a { color: var(--accent); text-decoration: none; }
+    @media (max-width: 600px) {
+      .cookie-content { flex-direction: column; text-align: center; }
+    }
+  </style>
 </body>
 </html>

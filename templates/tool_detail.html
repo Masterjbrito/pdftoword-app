@@ -458,10 +458,11 @@
     <div class="quick-grid">
       {% set popular = [
         ('pdf-to-word', '📄', 'PDF to Word'),
+        ('word-to-pdf', '📝', 'Word to PDF'),
         ('compress-pdf', '🗜️', 'Compress PDF'),
-        ('merge-pdf', '🔗', 'Merge PDFs'),
-        ('youtube-to-mp3', '🎵', 'YouTube → MP3'),
-        ('translate', '🌐', 'Translate'),
+        ('merge-pdf', '📚', 'Merge PDFs'),
+        ('translate', '🌐', 'Translate Document'),
+        ('ocr', '🔍', 'OCR / Text'),
         ('split-pdf', '✂️', 'Split PDF'),
       ] %}
       {% for slug, icon, label in popular if slug != tool_slug %}

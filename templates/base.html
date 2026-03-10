@@ -3,14 +3,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{% block meta_desc %}Free online PDF & document tools — convert, edit, compress, translate, and download media.{% endblock %}">
+  <meta name="description" content="{% block meta_desc %}Free online PDF & document tools — convert, edit, compress, translate, and download media. No registration required, high-speed processing.{% endblock %}">
+  <meta name="keywords" content="{% block keywords %}pdf to word, word to pdf, merge pdf, split pdf, compress pdf, translate document, youtube to mp3, ocr pdf, unlock pdf{% endblock %}">
+  <meta name="author" content="AITools">
   <meta name="robots" content="index, follow">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="{{ base_url }}{{ request.path }}">
+  
   <title>{% block title %}AITools — Free PDF & Document Tools{% endblock %}</title>
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ base_url }}{{ request.path }}">
+  <meta property="og:title" content="{% block og_title %}AITools — High-Speed PDF & Media Tools{% endblock %}">
+  <meta property="og:description" content="{% block og_desc %}Convert, edit, and process documents and media online for free. Support for PDF, Word, Images, YouTube, and more.{% endblock %}">
+  <meta property="og:image" content="{{ base_url }}/static/og-image.jpg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="{{ base_url }}{{ request.path }}">
+  <meta property="twitter:title" content="{% block tw_title %}AITools — High-Speed PDF & Media Tools{% endblock %}">
+  <meta property="twitter:description" content="{% block tw_desc %}Convert, edit, and process documents and media online for free.{% endblock %}">
+  <meta property="twitter:image" content="{{ base_url }}/static/og-image.jpg">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ adsense_id }}" crossorigin="anonymous"></script>
 </head>

@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}{{ tool_title }} — Free Online Tool | AITools{% endblock %}
-{% block meta_desc %}{{ tool_desc }} Free, fast, and secure — no registration needed.{% endblock %}
+{% block title %}{{ tool_title }} — Ferramenta Online Grátis | AITools{% endblock %}
+{% block meta_desc %}{{ tool_desc }} Ferramenta rápida, segura e totalmente gratuita para processar os seus ficheiros online.{% endblock %}
+{% block keywords %}{{ tool_title | lower }}, converter {{ tool_title | lower }}, pdf tools, ferramentas pdf, online, gratis, {{ tool_slug | replace('-', ' ') }}{% endblock %}
+
+{% block og_title %}{{ tool_title }} — Processamento Inteligente de Documentos{% endblock %}
+{% block og_desc %}{{ tool_desc }} Use a nossa ferramenta de alta performance para resultados instantâneos.{% endblock %}
 
 {% block content %}
 <main class="page with-rails">

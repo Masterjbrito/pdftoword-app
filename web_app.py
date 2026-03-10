@@ -128,6 +128,7 @@ LIBREOFFICE_PATH = shutil.which("libreoffice") or shutil.which("soffice")
 def inject_globals():
     return {
         "adsense_id": os.environ.get("ADSENSE_CLIENT_ID", "ca-pub-XXXXXXXXXXXXXXXX"),
+        "base_url": os.environ.get("BASE_URL", request.host_url.rstrip("/")),
         "category_items": CATEGORY_ITEMS,
         "tool_map": TOOL_MAP,
         "tools": TOOLS,
@@ -1166,6 +1167,35 @@ def spotify_playlist_to_mp3():
 @app.errorhandler(413)
 def file_too_large(_):
     return template_error("Ficheiro demasiado grande. Limite atual: 40MB.", 413)
+
+
+@app.get("/robots.txt")
+def robots_txt():
+    base_url = os.environ.get("BASE_URL", request.host_url.rstrip("/"))
+    content = f"User-agent: *\nAllow: /\nSitemap: {base_url}/sitemap.xml\n"
+    return content, 200, {"Content-Type": "text/plain"}
+
+
+@app.get("/sitemap.xml")
+def sitemap_xml():
+    base_url = os.environ.get("BASE_URL", request.host_url.rstrip("/"))
+    pages = [
+        {"loc": f"{base_url}/", "lastmod": "2025-03-10", "priority": "1.0"},
+        {"loc": f"{base_url}/ferramentas", "lastmod": "2025-03-10", "priority": "0.9"},
+    ]
+    for slug, _ in TOOLS:
+        pages.append({"loc": f"{base_url}/ferramentas/{slug}", "lastmod": "2025-03-10", "priority": "0.8"})
+
+    xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    for page in pages:
+        xml += "  <url>\n"
+        xml += f'    <loc>{page["loc"]}</loc>\n'
+        xml += f'    <lastmod>{page["lastmod"]}</lastmod>\n'
+        xml += f'    <priority>{page["priority"]}</priority>\n'
+        xml += "  </url>\n"
+    xml += "</urlset>"
+    return xml, 200, {"Content-Type": "application/xml"}
 
 
 if __name__ == "__main__":

@@ -126,12 +126,18 @@ LIBREOFFICE_PATH = shutil.which("libreoffice") or shutil.which("soffice")
 
 @app.context_processor
 def inject_globals():
+    # Filter out media category for AdSense approval phase
+    filtered_category_items = {k: v for k, v in CATEGORY_ITEMS.items() if k != "media"}
+    hidden_slugs = CATEGORY_ITEMS.get("media", [])
+    filtered_tools = [t for t in TOOLS if t[0] not in hidden_slugs]
+    filtered_tool_map = {slug: title for slug, title in filtered_tools}
+
     return {
         "adsense_id": os.environ.get("ADSENSE_CLIENT_ID", "ca-pub-XXXXXXXXXXXXXXXX"),
         "base_url": os.environ.get("BASE_URL", request.host_url.rstrip("/")),
-        "category_items": CATEGORY_ITEMS,
-        "tool_map": TOOL_MAP,
-        "tools": TOOLS,
+        "category_items": filtered_category_items,
+        "tool_map": filtered_tool_map,
+        "tools": filtered_tools,
         "tesseract_available": TESSERACT_AVAILABLE,
     }
 
@@ -1199,12 +1205,16 @@ def robots_txt():
 @app.get("/sitemap.xml")
 def sitemap_xml():
     base_url = os.environ.get("BASE_URL", request.host_url.rstrip("/"))
+    # Filter out media category for AdSense approval phase
+    hidden_slugs = CATEGORY_ITEMS.get("media", [])
+    
     pages = [
         {"loc": f"{base_url}/", "lastmod": "2025-03-10", "priority": "1.0"},
         {"loc": f"{base_url}/ferramentas", "lastmod": "2025-03-10", "priority": "0.9"},
     ]
     for slug, _ in TOOLS:
-        pages.append({"loc": f"{base_url}/ferramentas/{slug}", "lastmod": "2025-03-10", "priority": "0.8"})
+        if slug not in hidden_slugs:
+            pages.append({"loc": f"{base_url}/ferramentas/{slug}", "lastmod": "2025-03-10", "priority": "0.8"})
 
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'

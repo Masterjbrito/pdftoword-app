@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}AITools — Ferramentas PDF, DOCX e Media Grátis Online{% endblock %}
-{% block meta_desc %}As melhores ferramentas gratuitas para converter PDF para Word, unir PDFs, comprimir ficheiros, traduzir documentos e baixar vídeos do YouTube. Rápido e seguro.{% endblock %}
-{% block keywords %}pdf para word, converter pdf, unir pdf, dividir pdf, comprimir pdf, traduzir documento, youtube para mp3, ocr pdf, desbloquear pdf, ferramentas pdf online{% endblock %}
+{% block title %}AITools — Ferramentas PDF e DOCX Grátis Online{% endblock %}
+{% block meta_desc %}As melhores ferramentas gratuitas para converter PDF para Word, unir PDFs, comprimir ficheiros, traduzir documentos e OCR. Rápido e seguro.{% endblock %}
+{% block keywords %}pdf para word, converter pdf, unir pdf, dividir pdf, comprimir pdf, traduzir documento, ocr pdf, desbloquear pdf, ferramentas pdf online{% endblock %}
 
-{% block og_title %}AITools — Ferramentas PDF e Media de Alta Performance{% endblock %}
-{% block og_desc %}Converta, edite e processe documentos e media online gratuitamente. Suporte para PDF, Word, Imagens, YouTube e muito mais.{% endblock %}
+{% block og_title %}AITools — Ferramentas PDF e Documentos de Alta Performance{% endblock %}
+{% block og_desc %}Converta, edite e processe documentos online gratuitamente. Suporte para PDF, Word, Imagens e muito mais.{% endblock %}
 
 {% block content %}
 <main class="page with-rails">
@@ -45,9 +45,9 @@
 
     <!-- Hero -->
     <section class="hero-card">
-      <span class="hero-badge">⚡ 22 High-Performance Tools</span>
-      <h1>Intelligent Document <br> & Media Processing</h1>
-      <p class="subtitle">Experience frictionless conversion, editing, and ultra-fast media downloads in a secure, completely free environment. Powered by advanced algorithms for maximum speed.</p>
+      <span class="hero-badge">⚡ 15+ High-Performance Tools</span>
+      <h1>Intelligent Document <br> Processing</h1>
+      <p class="subtitle">Experience frictionless conversion, editing, and ultra-fast document processing in a secure, completely free environment. Powered by advanced algorithms for maximum speed.</p>
       
       <div style="display: flex; gap: 16px; justify-content: center; margin-bottom: 24px;">
         <a class="cta-link" href="/ferramentas">
@@ -57,7 +57,7 @@
 
       <div class="hero-stats">
         <div class="stat">
-          <span class="stat-value">22</span>
+          <span class="stat-value">15+</span>
           <span class="stat-label">Pro Tools</span>
         </div>
         <div class="stat">
@@ -98,10 +98,10 @@
         <h3>Security</h3>
         <p>Protect, unlock and remove PDF passwords.</p>
       </a>
-      <a class="cat-card" href="/ferramentas/youtube-to-mp3">
-        <div class="cat-card-icon">🎵</div>
-        <h3>Media & Text</h3>
-        <p>YouTube/Spotify downloads, OCR, translate.</p>
+      <a class="cat-card" href="/ferramentas/ocr">
+        <div class="cat-card-icon">🔍</div>
+        <h3>AI & Text</h3>
+        <p>OCR Text Extraction, document translation and more.</p>
       </a>
     </div>
 
@@ -113,10 +113,10 @@
         ('word-to-pdf', '📝', 'Word to PDF'),
         ('compress-pdf', '🗜️', 'Compress PDF'),
         ('merge-pdf', '📚', 'Merge PDFs'),
-        ('youtube-to-mp3', '🎵', 'YouTube → MP3'),
-        ('youtube-to-mp4', '🎬', 'YouTube → MP4'),
         ('translate', '🌐', 'Translate Document'),
+        ('ocr', '🔍', 'OCR / Text'),
         ('split-pdf', '✂️', 'Split PDF'),
+        ('protect-pdf', '🔒', 'Protect PDF'),
       ] %}
       {% for slug, icon, label in popular %}
       <a class="quick-btn" href="/ferramentas/{{ slug }}">

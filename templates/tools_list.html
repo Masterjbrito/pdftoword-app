@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
-{% block title %}All Tools — AITools Free PDF & Media Converter{% endblock %}
-{% block meta_desc %}Browse all 22 free tools: PDF conversion, editing, security, OCR, translation, YouTube & Spotify downloads.{% endblock %}
+{% block title %}All Tools — AITools Free PDF & Document Converter{% endblock %}
+{% block meta_desc %}Browse all free tools: PDF conversion, editing, security, OCR and translation. No registration required.{% endblock %}
 
 {% block content %}
 <main class="page with-rails">
@@ -45,7 +45,7 @@
 
     <div class="detail-card" style="margin-bottom:24px;">
       <h1>All Tools</h1>
-      <p class="subtitle">22 free tools for all your document and media needs. No signup required.</p>
+      <p class="subtitle">Free high-quality tools for all your document needs. No signup required.</p>
     </div>
 
     <!-- Conversion -->
@@ -82,6 +82,7 @@
     } %}
 
     {% for cat_key, cat_icon, cat_name in categories %}
+    {% if category_items.get(cat_key) %}
     <div class="tools-section">
       <h2 class="section-heading"><span>{{ cat_icon }}</span> {{ cat_name }}</h2>
       <div class="tools-grid">
@@ -94,6 +95,7 @@
         {% endfor %}
       </div>
     </div>
+    {% endif %}
     {% endfor %}
 
     <!-- Bottom Ad -->

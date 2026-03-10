@@ -11,7 +11,7 @@ from pathlib import Path
 import fitz
 from deep_translator import GoogleTranslator
 from docx import Document
-from flask import Flask, after_this_request, redirect, render_template, request, send_file, url_for
+from flask import Flask, after_this_request, redirect, render_template, request, send_file, url_for, send_from_directory
 from pdf2docx import Converter
 from PIL import Image
 from pypdf import PdfReader, PdfWriter
@@ -1197,10 +1197,7 @@ def file_too_large(_):
 
 @app.get("/ads.txt")
 def ads_txt():
-    # Standard AdSense ads.txt content
-    # Format: google.com, pub-PUBLISHER_ID, DIRECT/RESELLER, TAG_ID
-    content = "google.com, pub-3114217198436430, DIRECT, f08c47fec0942fa0\n"
-    return content, 200, {"Content-Type": "text/plain"}
+    return send_from_directory(app.root_path, "ads.txt")
 
 
 @app.get("/robots.txt")
